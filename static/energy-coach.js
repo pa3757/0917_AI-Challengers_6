@@ -1,7 +1,6 @@
 'use strict';
 
-let currentScreen = 'cover';
-let navStack = [];
+const currentScreen = document.body.dataset.page || 'cover';
 let state = {};
 let survey = [];
 let measurements = [];
@@ -21,14 +20,21 @@ const steps = {CONFIRM_FIRST:'상태 확인 먼저', MEASURE_FIRST:'현장 측�
 const cats = {basic:'기본 정보', pc:'PC·모니터', hvac:'냉난방·환기', kitchen:'운영 관리', drink:'음료·쇼케이스'};
 const catFor = q => ({basic:'basic', pc_monitor:'pc', pc_operation:'pc', hvac:'hvac', low_occupancy:'kitchen', energy_monitoring:'kitchen', refrigeration:'drink'}[q.section]);
 
-const templates = {
-  diagnosisSummary: $('#screen-diagnosis main > section').cloneNode(true),
-  risk: $('#screen-diagnosis article').cloneNode(true),
-  mission: $('#screen-guide .mission-card').cloneNode(true),
-  resultHeading: $('#screen-results main > section').cloneNode(true),
-  resultHero: $('#screen-results .snap-center').closest('section').cloneNode(true),
-  profile: $('#screen-myinfo main > div').cloneNode(true)
-};
+const pagePaths = {cover:'/', survey:'/survey', diagnosis:'/diagnosis', guide:'/guide', results:'/results', solution:'/solution', myinfo:'/myinfo'};
+const protectedPages = new Set(['diagnosis', 'guide', 'results', 'solution']);
+const navigate = window.__energyCoachNavigate || (path => location.assign(path));
+const replacePage = window.__energyCoachReplace || (path => location.replace(path));
+const templates = {};
+if ($('#screen-diagnosis')) {
+  templates.diagnosisSummary = $('#screen-diagnosis main > section').cloneNode(true);
+  templates.risk = $('#screen-diagnosis article').cloneNode(true);
+}
+if ($('#screen-guide .mission-card')) templates.mission = $('#screen-guide .mission-card').cloneNode(true);
+if ($('#screen-results')) {
+  templates.resultHeading = $('#screen-results main > section').cloneNode(true);
+  templates.resultHero = $('#screen-results .snap-center').closest('section').cloneNode(true);
+}
+if ($('#screen-myinfo main > div')) templates.profile = $('#screen-myinfo main > div').cloneNode(true);
 
 async function api(path, method = 'GET', body) {
   const controller = new AbortController();
@@ -62,27 +68,25 @@ function message(text, retry = false) {
 }
 
 function render() {
-  $$('.screen').forEach(screen => screen.classList.toggle('active', screen.id === 'screen-' + currentScreen));
   const active = $('#screen-' + currentScreen);
+  if (!active) return;
   active.scrollTop = 0;
-  const main = $('main', active);
+  const main = $('main, .scr-main', active);
   if (main) main.scrollTop = 0;
 }
 
 async function goTo(id) {
-  if (!$('#screen-' + id) || id === currentScreen) return;
+  if (!pagePaths[id] || id === currentScreen) return;
   if (!ready && id !== 'cover') return message('서버에 연결 중입니다. 연결에 실패하면 다시 연결을 눌러 주세요.');
   if (busy) return;
-  if (['diagnosis', 'guide', 'results', 'solution'].includes(id) && (!state.report || dirty)) {
+  if (currentScreen === 'survey' && protectedPages.has(id) && (!state.report || dirty)) {
     if (!await submitDiagnosis()) return;
   }
-  if (id === 'myinfo') renderProfile();
-  navStack.push(currentScreen);
-  currentScreen = id;
-  render();
+  if (protectedPages.has(id) && !state.report) return navigate('/survey');
+  navigate(pagePaths[id]);
 }
-function goBack() {if (!busy) {currentScreen = navStack.pop() || 'cover'; render();}}
-function closeScreen() {if (busy) return; if (currentScreen === 'myinfo') {navStack = []; currentScreen = 'cover'; render();} else goTo('myinfo');}
+function goBack() {if (!busy) {if (history.length > 1) history.back(); else navigate('/');}}
+function closeScreen() {if (!busy) navigate(currentScreen === 'myinfo' ? '/' : '/myinfo');}
 
 function selectCategory(cat) {
   $$('.cat-chip').forEach(chip => chip.classList.toggle('active', chip.dataset.cat === cat));
@@ -105,6 +109,7 @@ function answerValue(q) {
 }
 
 function renderSurvey() {
+  if (!$('#screen-survey')) return;
   const nav = $('#screen-survey nav[aria-label="설문 항목 카테고리"]');
   nav.innerHTML = Object.entries(cats).map(([id, label]) => `<button type="button" class="cat-chip" data-cat="${id}">${label}</button>`).join('');
   $$('button', nav).forEach(button => button.onclick = () => selectCategory(button.dataset.cat));
@@ -147,7 +152,7 @@ async function submitDiagnosis() {
   for (const q of survey) {
     const value = answerValue(q);
     if (value === undefined && q.required) {
-      currentScreen = 'survey'; render(); selectCategory(catFor(q));
+      selectCategory(catFor(q));
       $(`[data-question="${q.question_id}"]`).scrollIntoView({block:'center'});
       message(q.question + '\n이 문항에 응답해 주세요.');
       return false;
@@ -160,7 +165,6 @@ async function submitDiagnosis() {
   }
   const invalid = $$('#screen-survey input').find(input => !input.checkValidity());
   if (invalid) {
-    currentScreen = 'survey'; render();
     const question = invalid.closest('[data-question]');
     if (question) selectCategory(catFor(survey.find(q => q.question_id === question.dataset.question)));
     const details = invalid.closest('details'); if (details) details.open = true;
@@ -176,7 +180,6 @@ async function submitDiagnosis() {
   try {
     state = await api('diagnosis', 'POST', {answers, measurements:measureValues, scenario:$('#scenario-mode').checked, tariff_id:$('#tariff-id').value || null});
     dirty = false;
-    renderReport();
     return true;
   } catch (error) {message(error.message); return false;}
   finally {busy = false; button.disabled = false; label.textContent = 'AI 진단하기'; button.removeAttribute('aria-busy');}
@@ -190,6 +193,7 @@ function evidenceHtml(row) {
 }
 
 function renderDiagnosis(report) {
+  if (!$('#screen-diagnosis') || !templates.diagnosisSummary) return;
   const main = $('#screen-diagnosis main');
   const stepsNav = $('.step-pill', main)?.parentElement;
   const summary = templates.diagnosisSummary.cloneNode(true);
@@ -228,6 +232,7 @@ function renderDiagnosis(report) {
 }
 
 function renderGuide(report) {
+  if (!$('#screen-guide') || !templates.mission) return;
   const list = $('#screen-guide .mission-card')?.parentElement || $('#mission-list');
   list.id = 'mission-list';
   list.innerHTML = '<h3 class="font-headline-sm text-headline-sm">실천 미션 리스트</h3>';
@@ -273,6 +278,7 @@ function renderGuide(report) {
 }
 
 function renderResults(report) {
+  if (!$('#screen-results') || !templates.resultHero) return;
   const main = $('#screen-results main');
   const nav = $('.step-pill', main)?.parentElement;
   main.replaceChildren(); if (nav) main.append(nav);
@@ -303,6 +309,7 @@ function renderResults(report) {
 }
 
 function renderSolutions(report) {
+  if (!$('#screen-solution')) return;
   const main = $('#screen-solution main > div');
   main.innerHTML = '<section><h2 class="text-headline-lg font-bold">솔루션 상세 근거</h2><p class="text-sm text-gray-500 mt-2">진단에 연결된 전체 솔루션과 계산 상태입니다.</p></section>';
   const byId = Object.fromEntries(report.calculations.map(row => [row.solution_id, row]));
@@ -315,6 +322,7 @@ function renderSolutions(report) {
 }
 
 function renderProfile() {
+  if (!$('#screen-myinfo') || !templates.profile) return;
   const main = $('#screen-myinfo main');
   const actions = main.lastElementChild;
   main.replaceChildren();
@@ -339,10 +347,22 @@ function renderReport() {
 
 async function initialize() {
   try {
-    const [definition, saved] = await Promise.all([api('survey'), api('state')]);
-    survey = definition.questions; measurements = definition.measurements; tariffs = definition.tariffs || []; state = saved;
-    renderSurvey(); renderReport(); ready = true;
-  } catch (error) {message('서버에 연결할 수 없습니다.\n' + error.message, true);}
+    if (currentScreen === 'survey') {
+      const [definition, saved] = await Promise.all([api('survey'), api('state')]);
+      survey = definition.questions; measurements = definition.measurements; tariffs = definition.tariffs || []; state = saved;
+      renderSurvey();
+    } else {
+      state = await api('state');
+    }
+    if (protectedPages.has(currentScreen) && !state.report) return replacePage('/survey');
+    renderReport();
+    if (currentScreen === 'myinfo') renderProfile();
+    ready = true;
+    $('#page-loading')?.remove();
+  } catch (error) {
+    $('#page-loading')?.remove();
+    message('서버에 연결할 수 없습니다.\n' + error.message, true);
+  }
 }
 render();
 initialize();

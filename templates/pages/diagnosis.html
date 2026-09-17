@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="screen-diagnosis" class="screen active bg-gray-100">
+  <header class="w-full h-14 px-4 bg-white/95 backdrop-blur-md flex items-center justify-between border-b border-gray-100 z-30 shrink-0">
+    <button aria-label="이전으로 이동" onclick="goBack()" class="w-9 h-9 flex items-center justify-center rounded-full text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition-colors" type="button"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+    <div class="flex items-center space-x-1.5 pointer-events-none">
+      <div class="w-6 h-6 rounded-full bg-[#065f46] flex items-center justify-center text-white shadow-sm flex-shrink-0"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6"></path></svg></div>
+      <span class="text-[17px] font-extrabold text-gray-900 tracking-tight">Energy Coach</span>
+    </div>
+    <div class="flex items-center space-x-0.5">
+      <button aria-label="사용자 정보" onclick="goTo('myinfo')" class="w-9 h-9 flex items-center justify-center text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors" type="button"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+      <button aria-label="닫기" onclick="closeScreen()" class="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors" type="button"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></svg></button>
+    </div>
+  </header>
+
+  <main class="flex-1 min-h-0 overflow-y-auto px-5 pt-4 pb-28 space-y-4 bg-gray-100">
+    <nav aria-label="진단 진행 단계" class="w-full bg-white border border-gray-200 shadow-sm rounded-full p-1 flex items-center justify-between text-[11px] font-semibold tracking-tight">
+      <div class="step-pill flex-1 flex items-center justify-center py-1 px-1.5 rounded-full bg-emerald-50 text-[#006948] font-bold whitespace-nowrap gap-1" onclick="goTo('survey')"><svg class="w-3 h-3 text-[#006948] shrink-0" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg><span>1. 설문</span></div>
+      <div class="step-pill flex-1 flex items-center justify-center py-1 px-1.5 rounded-full bg-[#006948] text-white shadow-sm whitespace-nowrap gap-1" onclick="goTo('diagnosis')"><span class="w-1.5 h-1.5 rounded-full bg-emerald-300 shrink-0"></span><span>2. 진단</span></div>
+      <div class="step-pill flex-1 flex items-center justify-center py-1 px-1 text-gray-400 whitespace-nowrap" onclick="goTo('guide')">3. 가이드</div>
+      <div class="step-pill flex-1 flex items-center justify-center py-1 px-1 text-gray-400 whitespace-nowrap" onclick="goTo('results')">4. 효과</div>
+    </nav>
+
+    <section class="bg-white rounded-2xl p-6 shadow-card border border-gray-100" style="box-shadow:0 2px 14px -2px rgba(0,0,0,0.05);">
+      <div class="flex items-center justify-between gap-3">
+        <div class="space-y-1.5 flex-1 min-w-0">
+          <span class="text-[12.5px] font-medium text-gray-500 block">종합 에너지 효율 점수</span>
+          <div class="flex items-baseline gap-2 pt-0.5 whitespace-nowrap"><span class="text-[34px] font-extrabold text-gray-900 tracking-tight leading-none">52</span><span class="text-[14px] font-semibold text-gray-400">/ 100점</span></div>
+          <div class="pt-1"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11.5px] font-semibold bg-amber-50 text-amber-800 border border-amber-200"><svg class="w-3.5 h-3.5 text-amber-600 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" fill-rule="evenodd"></path></svg>개선 여지 있음</span></div>
+        </div>
+        <div class="relative w-20 h-20 shrink-0 flex items-center justify-center">
+          <svg class="w-20 h-20" viewBox="0 0 64 64"><circle class="progress-circle-bg" cx="32" cy="32" fill="transparent" r="28" stroke-width="5"></circle><circle class="progress-circle-val" cx="32" cy="32" fill="transparent" r="28" stroke-width="5.5"></circle></svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"><span class="text-[18px] font-extrabold text-[#006948]">52</span><span class="text-[9px] font-medium text-gray-400 -mt-0.5">SCORE</span></div>
+        </div>
+      </div>
+      <p class="mt-4 pt-3.5 border-t border-gray-100 text-[12.5px] text-gray-600 leading-relaxed">우선 개선하면 전기요금을 크게 줄일 수 있는 <strong class="font-bold text-gray-900 underline decoration-emerald-300 decoration-2">낭비 요인 2개</strong>를 발견했어요.</p>
+    </section>
+
+    <section class="space-y-3">
+      <div class="flex items-center justify-between px-1"><h2 class="text-[14.5px] font-bold text-gray-900 tracking-tight">정밀 진단 분석 리포트</h2><span class="text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded-full">핵심 진단 2건</span></div>
+
+      <article class="bg-white rounded-2xl p-5 shadow-card border border-gray-100 transition hover:border-emerald-200" style="box-shadow:0 2px 14px -2px rgba(0,0,0,0.05);">
+        <div class="flex items-start space-x-3.5">
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 text-[#006948] flex items-center justify-center shrink-0 mt-0.5 border border-emerald-100/60"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect height="14" rx="2" stroke-linecap="round" stroke-linejoin="round" width="20" x="2" y="3"></rect><path d="M8 21h8M12 17v4" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-1"><h3 class="text-[13.5px] font-bold text-gray-900 tracking-tight truncate">비가동 PC 좌석 및 주변기기 대기전력</h3><span class="text-[10.5px] font-bold text-rose-600 bg-rose-50 border border-rose-200/60 px-1.5 py-0.5 rounded shrink-0">높은 개선 필요</span></div>
+            <p class="mt-2 text-[12px] text-gray-600 leading-relaxed">손님이 없는 좌석의 PC 본체·모니터·헤드셋 노하드 대기전력이 불필요하게 소비되고 있어요.</p>
+            <div class="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-between text-[11px]"><span class="text-gray-500">심야 비가동 대기전력 비중</span><span class="font-bold text-rose-600">매장 총량의 38.4%</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="bg-white rounded-2xl p-5 shadow-card border border-gray-100 transition hover:border-emerald-200" style="box-shadow:0 2px 14px -2px rgba(0,0,0,0.05);">
+        <div class="flex items-start space-x-3.5">
+          <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center shrink-0 mt-0.5 border border-teal-100/60"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 3v3m0 12v3m9-9h-3M6 12H3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-1"><h3 class="text-[13.5px] font-bold text-gray-900 tracking-tight truncate">새벽/야간 시간대 환기·냉난방 과다 가동</h3><span class="text-[10.5px] font-bold text-amber-600 bg-amber-50 border border-amber-200/60 px-1.5 py-0.5 rounded shrink-0">확인 필요</span></div>
+            <p class="mt-2 text-[12px] text-gray-600 leading-relaxed">손님 이용률이 낮은 시간대에도 동일한 세팅으로 환기팬과 에어컨이 가동되고 있어요.</p>
+            <div class="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-between text-[11px]"><span class="text-gray-500">공조 부하 과다율</span><span class="font-bold text-amber-600">적정 기준치 대비 +27%</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="bg-white rounded-2xl p-5 shadow-card border border-gray-100" style="box-shadow:0 2px 14px -2px rgba(0,0,0,0.05);">
+        <h3 class="text-[13px] font-bold text-gray-900 mb-3.5 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#006948]"></span>매장 전력 운영 정밀 지표</h3>
+        <div class="space-y-3.5">
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-[11.5px]"><span class="text-gray-600 font-medium">계약전력 대비 피크 여유마진</span><span class="font-bold text-rose-600">12.3% (임계 근접)</span></div>
+            <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-rose-500 rounded-full" style="width:87.7%;"></div></div>
+            <div class="flex justify-between text-[10.5px] text-gray-400 pt-0.5"><span>계약 45kW</span><span>피크 측정치 39.5kW</span></div>
+          </div>
+          <div class="space-y-1.5 pt-3 border-t border-gray-100">
+            <div class="flex justify-between text-[11.5px]"><span class="text-gray-600 font-medium">동종 PC방 대비 효율 백분위</span><span class="font-bold text-amber-600">하위 34% 수준</span></div>
+            <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-amber-500 rounded-full" style="width:34%;"></div></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <footer class="bg-white/70 rounded-2xl p-4 border border-dashed border-gray-200 text-center"><p class="text-[11.5px] text-gray-500 leading-relaxed">매장 정보: <span class="text-gray-900 font-semibold">홍대 e스포츠 PC 아레나 (120석)</span> · 계약전력 45kW</p></footer>
+  </main>
+
+  <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-white via-white/95 to-white/0 pt-5 pb-5 px-4 flex flex-col items-center z-40">
+    <div class="w-full flex items-center gap-2">
+      <button type="button" onclick="goTo('guide')" class="w-full h-14 rounded-full bg-emerald-500/90 hover:bg-emerald-500 backdrop-blur-md border border-emerald-300/40 text-white font-bold text-base shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]"><span>실천 가이드 확인하기</span><svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button>
+    </div>
+    <div class="w-28 h-1 bg-gray-300 rounded-full mt-3 opacity-60"></div>
+  </div>
+</section>
+{% endblock %}

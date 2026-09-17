@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="screen-survey" class="screen active bg-white">
+  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md px-4 py-3 flex items-center justify-between border-b border-gray-100 relative shrink-0">
+    <button aria-label="뒤로가기" onclick="goBack()" class="w-10 h-10 -ml-1.5 flex items-center justify-center text-gray-700 hover:text-black rounded-full hover:bg-gray-100 transition-colors" type="button">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M15.75 19.5L8.25 12l7.5-7.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+    <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-none">
+      <div class="w-6 h-6 rounded-full bg-[#065f46] flex items-center justify-center text-white shadow-sm flex-shrink-0"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6"></path></svg></div>
+      <span class="text-base font-extrabold text-[#141b2b] tracking-tight">Energy Coach</span>
+    </div>
+    <div class="flex items-center gap-0.5">
+      <button aria-label="사용자 프로필" onclick="goTo('myinfo')" class="w-9 h-9 flex items-center justify-center text-gray-600 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors" type="button"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+      <button aria-label="닫기" onclick="closeScreen()" class="w-9 h-9 flex items-center justify-center text-gray-600 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors" type="button"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+    </div>
+  </header>
+
+  <div class="px-4 pt-3 pb-1 shrink-0">
+    <div class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-full border border-gray-200/80 shadow-sm flex items-center justify-between text-[11px] font-medium text-gray-400">
+      <span class="step-pill bg-[#006948] text-white font-bold px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm" onclick="goTo('survey')"><span class="w-1.5 h-1.5 rounded-full bg-[#4ade80]"></span>1. 설문</span>
+      <span class="step-pill px-2 py-0.5" onclick="goTo('diagnosis')">2. 진단</span>
+      <span class="step-pill px-2 py-0.5" onclick="goTo('guide')">3. 가이드</span>
+      <span class="step-pill px-2 py-0.5" onclick="goTo('results')">4. 효과</span>
+    </div>
+  </div>
+
+  <div class="flex-1 px-5 pt-4 pb-6 scr-main">
+    <div class="flex items-center justify-between gap-2 mb-3">
+      <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-semibold tracking-tight border border-emerald-100/80">
+        <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        17개 문항 · 약 3분 소요
+      </div>
+    </div>
+
+    <section class="mb-5">
+      <h1 class="text-2xl font-extrabold text-gray-900 tracking-tight leading-[1.3] mb-2">우리 PC방의<br><span class="text-emerald-700">에너지 습관</span>을 알려주세요</h1>
+      <p class="text-xs text-gray-500 leading-relaxed break-keep">PC, 냉난방, 매장 운영과 냉장 설비 습관을 선택하면 에너지 낭비 요인을 분석해 드려요.</p>
+    </section>
+
+    <nav aria-label="설문 항목 카테고리" class="flex items-center gap-1.5 overflow-x-auto py-1 mb-6 -mx-1 px-1">
+      <button type="button" class="cat-chip active" data-cat="pc" onclick="selectCategory('pc')">PC·모니터</button>
+      <button type="button" class="cat-chip" data-cat="hvac" onclick="selectCategory('hvac')">냉난방·환기</button>
+      <button type="button" class="cat-chip" data-cat="kitchen" onclick="selectCategory('kitchen')">주방·조리기구</button>
+      <button type="button" class="cat-chip" data-cat="drink" onclick="selectCategory('drink')">음료·쇼케이스</button>
+    </nav>
+
+    <section class="bg-gray-50/90 rounded-2xl p-4 border border-gray-100 mb-6 shadow-sm">
+      <div id="q-pc" class="survey-question active">
+        <div class="flex items-start gap-2.5 mb-4">
+          <div class="mt-0.5 w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0 text-emerald-800"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0H3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div><div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Q1 / PC·모니터</div><h2 class="text-sm font-bold text-gray-900 leading-snug">손님이 퇴석한 PC 좌석 및 대기전력 관리 방식은?</h2></div>
+        </div>
+        <div role="radiogroup" class="space-y-2.5">
+          <label class="q-option"><input class="sr-only" name="q_pc" type="radio" value="1" onchange="onAnswer('pc')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">퇴석 즉시 본체 및 모니터 전원을 차단해요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_pc" type="radio" value="2" onchange="onAnswer('pc')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">시스템 자동 절전/타임아웃 설정을 활용해요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_pc" type="radio" value="3" checked onchange="onAnswer('pc')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">손님이 나간 후에도 모니터만 끄거나 켜둔 채 방치돼요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_pc" type="radio" value="4" onchange="onAnswer('pc')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">잘 모르겠어요</span></label>
+        </div>
+      </div>
+
+      <div id="q-hvac" class="survey-question">
+        <div class="flex items-start gap-2.5 mb-4">
+          <div class="mt-0.5 w-7 h-7 rounded-lg bg-teal-100 flex items-center justify-center flex-shrink-0 text-teal-800"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div><div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Q2 / 냉난방·환기</div><h2 class="text-sm font-bold text-gray-900 leading-snug">새벽·심야 시간대 냉난방·환기 가동 방식은?</h2></div>
+        </div>
+        <div role="radiogroup" class="space-y-2.5">
+          <label class="q-option"><input class="sr-only" name="q_hvac" type="radio" value="1" onchange="onAnswer('hvac')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">손님 이용률에 따라 자동으로 강도를 조절해요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_hvac" type="radio" value="2" onchange="onAnswer('hvac')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">심야 전용 절전 모드로 별도 설정해두었어요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_hvac" type="radio" value="3" onchange="onAnswer('hvac')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">낮 시간대와 동일한 세팅으로 계속 가동해요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_hvac" type="radio" value="4" onchange="onAnswer('hvac')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">잘 모르겠어요</span></label>
+        </div>
+      </div>
+
+      <div id="q-kitchen" class="survey-question">
+        <div class="flex items-start gap-2.5 mb-4">
+          <div class="mt-0.5 w-7 h-7 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0 text-amber-800"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v3m-6 4h12M6 10l1 10a2 2 0 002 2h6a2 2 0 002-2l1-10" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div><div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Q3 / 주방·조리기구</div><h2 class="text-sm font-bold text-gray-900 leading-snug">주문이 없는 시간대 조리기구(튀김기·온수기 등) 관리는?</h2></div>
+        </div>
+        <div role="radiogroup" class="space-y-2.5">
+          <label class="q-option"><input class="sr-only" name="q_kitchen" type="radio" value="1" onchange="onAnswer('kitchen')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">사용하지 않을 때는 전원을 꺼둬요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_kitchen" type="radio" value="2" onchange="onAnswer('kitchen')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">보온 대기 모드를 수동으로 껐다 켜요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_kitchen" type="radio" value="3" onchange="onAnswer('kitchen')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">손님이 없어도 항상 보온 대기 상태로 켜둬요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_kitchen" type="radio" value="4" onchange="onAnswer('kitchen')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">잘 모르겠어요</span></label>
+        </div>
+      </div>
+
+      <div id="q-drink" class="survey-question">
+        <div class="flex items-start gap-2.5 mb-4">
+          <div class="mt-0.5 w-7 h-7 rounded-lg bg-sky-100 flex items-center justify-center flex-shrink-0 text-sky-800"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 4h14l-1.5 15.5a2 2 0 01-2 1.5H8.5a2 2 0 01-2-1.5L5 4z" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 4h16" stroke-linecap="round"></path></svg></div>
+          <div><div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Q4 / 음료·쇼케이스</div><h2 class="text-sm font-bold text-gray-900 leading-snug">음료 쇼케이스·정수기 등의 야간 절전 설정은?</h2></div>
+        </div>
+        <div role="radiogroup" class="space-y-2.5">
+          <label class="q-option"><input class="sr-only" name="q_drink" type="radio" value="1" onchange="onAnswer('drink')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">야간 절전 타이머를 설정해뒀어요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_drink" type="radio" value="2" onchange="onAnswer('drink')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">온도를 낮보다 낮게 조절해요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_drink" type="radio" value="3" onchange="onAnswer('drink')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">24시간 동일한 세팅으로 운영해요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_drink" type="radio" value="4" onchange="onAnswer('drink')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">잘 모르겠어요</span></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-1">
+      <div class="flex items-center justify-between text-[11px] mb-1.5 font-medium text-gray-500">
+        <span>진행률</span>
+        <span class="font-semibold text-gray-800"><span id="survey-progress-pct" class="text-emerald-600 font-bold">25%</span> · <span id="survey-progress-frac">1/4</span></span>
+      </div>
+      <div class="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden"><div id="survey-progress-bar" class="bg-emerald-700 h-1.5 rounded-full transition-all duration-300" style="width:25%;"></div></div>
+    </section>
+  </div>
+
+  <footer class="z-30 bg-white/95 backdrop-blur-md px-5 pt-3 pb-6 border-t border-gray-100 shrink-0">
+    <button type="button" onclick="goTo('diagnosis')" class="w-full h-14 rounded-full bg-emerald-500/90 hover:bg-emerald-500 backdrop-blur-md border border-emerald-300/40 text-white font-bold text-base shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+      <span>AI 진단하기</span>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+  </footer>
+</section>
+{% endblock %}

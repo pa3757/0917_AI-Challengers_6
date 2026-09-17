@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>{{ title }} | Energy Coach</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          "on-error": "#ffffff", "on-surface-variant": "#3d4a42", "secondary-fixed": "#b0f0d6",
+          "secondary": "#2b6954", "secondary-fixed-dim": "#95d3ba", "surface-variant": "#dce2f7",
+          "tertiary-fixed": "#6ffbbe", "on-secondary-fixed": "#002117", "on-primary-container": "#f5fff7",
+          "primary-container": "#00855d", "on-error-container": "#93000a", "primary-fixed-dim": "#68dba9",
+          "tertiary-fixed-dim": "#4edea3", "surface": "#f9f9ff", "surface-container-high": "#e1e8fd",
+          "on-tertiary-fixed-variant": "#005236", "on-tertiary-fixed": "#002113", "inverse-surface": "#293040",
+          "on-primary": "#ffffff", "primary": "#006948", "surface-container-low": "#f1f3ff",
+          "on-surface": "#141b2b", "error-container": "#ffdad6", "surface-container-lowest": "#ffffff",
+          "surface-container": "#e9edff", "background": "#f9f9ff", "on-primary-fixed": "#002114",
+          "surface-dim": "#d3daef", "on-tertiary": "#ffffff", "outline": "#6d7a72",
+          "surface-container-highest": "#dce2f7", "tertiary": "#006947", "outline-variant": "#bccac0",
+          "on-primary-fixed-variant": "#005137", "on-secondary-container": "#306d58", "inverse-primary": "#68dba9",
+          "surface-bright": "#f9f9ff", "surface-tint": "#006c4a", "tertiary-container": "#00855b",
+          "on-tertiary-container": "#f5fff6", "on-secondary-fixed-variant": "#0b513d", "primary-fixed": "#85f8c4",
+          "secondary-container": "#adedd3", "error": "#ba1a1a", "on-secondary": "#ffffff",
+          "inverse-on-surface": "#edf0ff", "on-background": "#141b2b",
+          tossGreen: { 50:'#F0FDF4',100:'#DCFCE7',200:'#BBF7D0',500:'#22C55E',600:'#16A34A',700:'#15803D',800:'#166534',900:'#14532D' },
+          subtleGray: '#F9FAFB', cardBg: '#FFFFFF',
+          tossText: { main:'#191F28', sub:'#6B7684', muted:'#8B95A1' }
+        },
+        spacing: {
+          "space-xs": "0.25rem", "gutter": "0.75rem", "space-md": "1rem", "margin": "1.25rem",
+          "space-xl": "2.25rem", "space-sm": "0.5rem", "space-lg": "1.5rem",
+          "gutter-mobile": "0.5rem", "margin-mobile": "1rem"
+        },
+        fontFamily: {
+          sans: ['Pretendard', '"Hanken Grotesk"', '-apple-system', 'BlinkMacSystemFont', 'Apple SD Gothic Neo', 'Malgun Gothic', 'sans-serif'],
+          display: ['"Manrope"', 'sans-serif'],
+          "display-lg": ["Manrope"], "label-lg": ["Hanken Grotesk"], "body-sm": ["Hanken Grotesk"],
+          "label-sm": ["Hanken Grotesk"], "metric-num": ["Manrope"], "display-lg-mobile": ["Manrope"],
+          "body-md": ["Hanken Grotesk"], "headline-sm": ["Manrope"], "headline-lg": ["Manrope"],
+          "headline-md": ["Manrope"], "body-lg": ["Hanken Grotesk"]
+        },
+        fontSize: {
+          "display-lg": ["40px", { lineHeight: "48px", letterSpacing: "-0.03em", fontWeight: "800" }],
+          "label-lg": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "600" }],
+          "body-sm": ["13px", { lineHeight: "19px", letterSpacing: "0em", fontWeight: "400" }],
+          "label-sm": ["11px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }],
+          "metric-num": ["28px", { lineHeight: "34px", letterSpacing: "-0.03em", fontWeight: "700" }],
+          "display-lg-mobile": ["32px", { lineHeight: "40px", letterSpacing: "-0.03em", fontWeight: "800" }],
+          "body-md": ["15px", { lineHeight: "23px", letterSpacing: "-0.005em", fontWeight: "400" }],
+          "headline-sm": ["18px", { lineHeight: "26px", letterSpacing: "-0.01em", fontWeight: "600" }],
+          "headline-lg": ["26px", { lineHeight: "34px", letterSpacing: "-0.02em", fontWeight: "700" }],
+          "headline-md": ["22px", { lineHeight: "30px", letterSpacing: "-0.02em", fontWeight: "700" }],
+          "body-lg": ["17px", { lineHeight: "26px", letterSpacing: "-0.01em", fontWeight: "500" }]
+        }
+      }
+    }
+  };
+</script>
+
+<style>
+  :root { color-scheme: light; }
+  html, body { margin:0; padding:0; background:#eef1f5; -webkit-font-smoothing:antialiased; overscroll-behavior-y:none; }
+  ::-webkit-scrollbar { display:none; }
+  * { scrollbar-width:none; }
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+
+  /* ---- phone frame + screen router ---- */
+  #phone { position:relative; overflow:hidden; }
+  .screen { position:absolute; inset:0; display:none; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch; background:#fff; }
+  .screen.active { display:flex; }
+  .scr-main { min-height:0; }
+
+  /* Keep survey actions below the independently scrolling question area. */
+  /* overflow:clip (not hidden) so focus/scrollIntoView can't scroll the frame and push header/footer out of view. */
+  #phone, #screen-survey { overflow:hidden; overflow:clip; }
+  #screen-survey > .scr-main { position:relative; flex:1 1 0%; overflow-y:auto; overflow-x:hidden; overscroll-behavior-y:contain; }
+  #screen-survey > footer { padding-bottom:max(1.5rem, env(safe-area-inset-bottom, 0px)); }
+
+  /* ---- cover screen bg (0) ---- */
+  .soft-mint-bg { background-color:#edfcf2; background-image: radial-gradient(circle at 50% 20%, rgba(255,255,255,0.8) 0%, transparent 60%), linear-gradient(180deg, #e8f5e9 0%, #dcfce7 45%, #bbf7d0 100%); }
+  .dot-pattern-overlay { background-image:url('https://lh3.googleusercontent.com/aida-public/AB6AXuAA0E3Q76jWElhXMhpYxIrgV3AMhxO480SaUb5Z_IKwNUvP-BQIawGTdZ_k7DLfLSbY5osuodregJCyJQV2t_HIje7a7bj-3Dz0QKHVVJOLyQFqAPeGMfr3_ZcfuQuVFdrFYcZLrZ5wJXhkuuWd_CR8szYxW3af5FDRRhN-8Ck1lP04n0kUZl2bigd7iMtqsZ_S-BCzLBq6lzXPpx_DeZS_6ka4IEYwAToDUV14LZ0MK-czvWMh7E908CT5gwIqYIPlVWc'); background-repeat:repeat; background-size:226px auto; mix-blend-mode:multiply; opacity:0.45; }
+  .ambient-glow-1 { filter:blur(50px); background: radial-gradient(circle, rgba(134,239,172,0.6) 0%, rgba(255,255,255,0) 70%); }
+  .ambient-glow-2 { filter:blur(60px); background: radial-gradient(circle, rgba(52,211,153,0.35) 0%, rgba(255,255,255,0) 70%); }
+
+  /* ---- diagnosis screen (2) ---- */
+  .progress-circle-bg { stroke:#E5E8EB; }
+  .progress-circle-val { stroke:#006948; stroke-linecap:round; stroke-dasharray:175.93; stroke-dashoffset:84.45; transform:rotate(-90deg); transform-origin:50% 50%; transition:stroke-dashoffset 1s ease-in-out; }
+
+  /* ---- results screen (4) bg ---- */
+  .toss-card-shadow { box-shadow: 0 4px 20px -2px rgba(0,0,0,0.05), 0 2px 6px -1px rgba(0,0,0,0.02); }
+  .toss-dot-bg { background-color:#F4F6F8; background-image:url('https://lh3.googleusercontent.com/aida-public/AB6AXuBkqi347gJL76fKz8nkTzZN-sRvTmci4w2AQf6OMHf3uSV2qO1hdbUFbPDbzLrogGNVLFga8B4bP59Uzg6oJdBdx8gvestf6Tz_i7ag6B77qF9aS_gVjEOrHvE5o2OMDh2m1no9JaPYfbKbw23cdQPvnastCmgi3vn0UcOPKOYtFg7jVKwSX3DBipLxgWiAuiXnUDVjmp6p1VffFSxCzmcTPwVlsH3YIOQkmdBQODB87ol4MmTFxWQpQhUh3Oi7gaRtfw4'); background-repeat:repeat; background-size:226px 108px; }
+
+  /* ---- guide / solution screens (3, 5) micro-dot bg ---- */
+  .micro-dot-bg { background-image: radial-gradient(#141b2b 0.75px, transparent 0.75px); background-size:16px 16px; }
+
+  /* ---- survey radio / option selection (CSS :has, no JS needed for visual state) ---- */
+  /* position:relative keeps the sr-only radio anchored inside its label, not the screen. */
+  .q-option { position:relative; display:flex; align-items:center; gap:0.75rem; padding:0.875rem; border-radius:0.75rem; background:#fff; border:1px solid #e5e7eb; cursor:pointer; transition:all .15s ease; }
+  .q-option:hover { border-color:#d1d5db; }
+  .q-option:has(input:checked) { background-color: rgba(16,185,129,0.08); border-color:#059669; border-width:2px; padding:calc(0.875rem - 1px); box-shadow:0 1px 2px 0 rgba(0,0,0,.05); }
+  .q-dot { width:1.25rem; height:1.25rem; border-radius:9999px; border:1px solid #d1d5db; display:flex; align-items:center; justify-content:center; background:#fff; flex-shrink:0; transition:all .15s ease; }
+  .q-option:has(input:checked) .q-dot { background:#059669; border-color:#059669; border-width:2px; }
+  .q-check { width:0.75rem; height:0.75rem; color:#fff; opacity:0; transition:opacity .15s ease; }
+  .q-option:has(input:checked) .q-check { opacity:1; }
+  .q-label-text { font-size:0.75rem; color:#1f2937; font-weight:500; line-height:1.6; }
+  .q-option:has(input:checked) .q-label-text { color:#022c22; font-weight:700; }
+  .cat-chip { flex-shrink:0; padding:0.5rem 0.9rem; border-radius:9999px; font-size:0.75rem; font-weight:700; background:#f3f4f6; color:#4b5563; border:1px solid transparent; transition:all .15s ease; white-space:nowrap; }
+  .cat-chip.active { background:#14532d; color:#fff; box-shadow:0 1px 2px rgba(0,0,0,.08); }
+  .survey-question { display:none; }
+  .survey-question.active { display:block; }
+
+  /* ---- step indicator pill nav (clickable) ---- */
+  .step-pill { cursor:pointer; }
+</style>
+</head>
+<body data-page="{{ page }}" class="bg-slate-200 flex items-center justify-center min-h-screen p-0 sm:p-4 font-sans" style="background-color:#e2e8f0;">
+<div id="phone" class="w-full max-w-[420px] h-[844px] max-h-screen bg-white sm:rounded-[44px] shadow-2xl border border-emerald-200/50">
+{% block content %}{% endblock %}
+<div id="page-loading" class="absolute inset-0 z-50 bg-white/95 flex flex-col items-center justify-center gap-3" role="status" aria-live="polite">
+  <span class="w-9 h-9 rounded-full border-4 border-emerald-100 border-t-emerald-600 animate-spin"></span>
+  <span class="text-sm font-semibold text-gray-600">화면을 불러오는 중입니다</span>
+</div>
+</div>
+<script src="/static/energy-coach.js" defer></script>
+</body>
+</html>

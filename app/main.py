@@ -2,9 +2,9 @@ from pathlib import Path
 from typing import Annotated, Any
 import logging
 
-from fastapi import Cookie, Depends, FastAPI, HTTPException, Response
-from fastapi.responses import FileResponse
+from fastapi import Cookie, Depends, FastAPI, HTTPException, Request, Response
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, ConfigDict, Field, StrictBool
 
 from . import service, store
@@ -12,6 +12,17 @@ from . import service, store
 ROOT = Path(__file__).resolve().parents[1]
 app = FastAPI(title='Energy Coach', version='1.0.0')
 app.mount('/static', StaticFiles(directory=ROOT / 'static'), name='static')
+templates = Jinja2Templates(directory=ROOT / 'templates')
+
+PAGES = {
+    'cover': ('시작', '/'),
+    'survey': ('에너지 습관 설문', '/survey'),
+    'diagnosis': ('AI 진단 결과', '/diagnosis'),
+    'guide': ('실천 가이드', '/guide'),
+    'results': ('예상 절감 효과', '/results'),
+    'solution': ('솔루션 상세', '/solution'),
+    'myinfo': ('내 정보', '/myinfo'),
+}
 
 
 def get_session(response: Response, energy_session: Annotated[str | None, Cookie()] = None):
@@ -44,8 +55,17 @@ class ProfileInput(BaseModel):
 
 
 @app.get('/', include_in_schema=False)
-def index():
-    return FileResponse(ROOT / 'energy-coach.html', media_type='text/html', headers={'Cache-Control': 'no-cache'})
+def index(request: Request):
+    title, _ = PAGES['cover']
+    return templates.TemplateResponse(request, 'pages/cover.html', {'page': 'cover', 'title': title}, headers={'Cache-Control': 'no-cache'})
+
+
+@app.get('/{page}', include_in_schema=False)
+def page(request: Request, page: str):
+    if page not in PAGES or page == 'cover':
+        raise HTTPException(404, detail='화면을 찾을 수 없습니다.')
+    title, _ = PAGES[page]
+    return templates.TemplateResponse(request, f'pages/{page}.html', {'page': page, 'title': title}, headers={'Cache-Control': 'no-cache'})
 
 
 @app.get('/api/health')

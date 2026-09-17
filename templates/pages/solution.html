@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="screen-solution" class="screen active bg-surface" style="background-color:#f8fafc;">
+  <header class="absolute top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.03)]">
+    <div class="h-14 px-margin-mobile flex items-center justify-between relative">
+      <button aria-label="뒤로 가기" onclick="goBack()" class="w-11 h-11 -ml-2 flex items-center justify-center text-on-surface hover:text-primary transition-colors active:scale-95 z-10"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button>
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none"><div class="flex items-center gap-1.5 pointer-events-auto"><div class="w-7 h-7 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container"><span class="material-symbols-outlined text-[18px]">eco</span></div><span class="font-headline-sm text-headline-sm font-extrabold text-on-surface tracking-tight">Energy Coach</span></div></div>
+      <div class="flex items-center gap-1 z-10"><button aria-label="내 정보" onclick="goTo('myinfo')" class="w-11 h-11 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-95"><span class="material-symbols-outlined text-[24px]">account_circle</span></button><button aria-label="창 닫기" onclick="closeScreen()" class="w-11 h-11 -mr-2 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-95"><span class="material-symbols-outlined text-[24px]">close</span></button></div>
+    </div>
+  </header>
+
+  <main class="flex-1 min-h-0 overflow-y-auto relative w-full pt-14 pb-28 bg-surface px-margin-mobile" style="background-color:#f8fafc;">
+    <div class="flex flex-col w-full pb-6 space-y-space-md">
+      <section class="flex flex-col space-y-space-xs pt-space-xs">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface">PC방 AI 정밀 추가 솔루션</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">플레이존 PC방 (강남점)의 최근 전력 패턴 분석 기반 심화 권장안</p>
+      </section>
+
+      <section class="w-full bg-surface-container-lowest rounded-[2rem] p-space-md shadow-[0_4px_20px_-2px_rgba(6,78,59,0.04)]">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-space-xs"><span class="w-2.5 h-2.5 rounded-full bg-primary"></span><span class="font-label-lg text-label-lg text-primary">추가 절감 극대화 플랜</span></div>
+          <span class="px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container font-label-sm text-label-sm font-semibold">적용 시 총 480,000원</span>
+        </div>
+        <div class="mt-space-sm flex items-baseline justify-between">
+          <div><p class="font-body-sm text-body-sm text-on-surface-variant">월 예상 종합 추가 절감액</p><p class="font-display-lg-mobile text-display-lg-mobile text-primary mt-0.5 font-extrabold">+95,000<span class="font-headline-md text-headline-md font-bold text-on-surface ml-0.5">원</span></p></div>
+          <div class="text-right"><span class="font-label-sm text-label-sm text-on-surface-variant block">기존 절감 385,000원</span><span class="font-label-sm text-label-sm text-primary font-bold block">+ 추가 95,000원</span></div>
+        </div>
+        <div class="w-full bg-surface-container-high rounded-full h-2 mt-space-sm overflow-hidden flex"><div class="bg-secondary h-full" style="width:80%;"></div><div class="bg-primary-fixed-dim h-full" style="width:20%;"></div></div>
+        <div class="flex justify-between items-center mt-1.5 font-label-sm text-label-sm text-on-surface-variant"><span>현재 확정 절감 (80%)</span><span class="text-primary font-bold">추가 절감 잠재력 (20%)</span></div>
+      </section>
+
+      <article class="w-full bg-surface-container-lowest rounded-[2rem] p-space-md shadow-[0_4px_20px_-2px_rgba(6,78,59,0.04)] transition-all duration-200">
+        <div class="flex items-start justify-between gap-space-sm">
+          <div class="flex items-center gap-space-sm"><div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[22px]" style="font-variation-settings:&quot;FILL&quot; 1;">bolt</span></div><div><span class="font-label-sm text-label-sm text-primary font-semibold">피크 대응</span><h3 class="font-headline-sm text-headline-sm text-on-surface">피크타임 집중 방어</h3></div></div>
+          <button aria-checked="true" class="relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full bg-primary p-0.5 transition-colors duration-200 ease-in-out focus:outline-none" data-toggle="solution-1" role="switch" type="button"><span class="pointer-events-none inline-block h-6 w-6 transform rounded-full bg-surface-container-lowest shadow-sm transition duration-200 ease-in-out translate-x-5"></span></button>
+        </div>
+        <div class="mt-space-sm flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low text-on-surface-variant w-fit font-label-sm text-label-sm"><span class="material-symbols-outlined text-[15px]">schedule</span><span>19:00 ~ 22:00 (전력 피크 집중 구간)</span></div>
+        <div class="mt-space-md space-y-space-sm">
+          <div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span><p class="font-body-sm text-body-sm text-on-surface">야간 피크 시간대 빈 좌석 일괄 대기전력 즉각 차단</p></div>
+          <div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span><p class="font-body-sm text-body-sm text-on-surface">미사용 모니터 및 게이밍 RGB 조명 자동 절전 프로파일 활성화</p></div>
+        </div>
+        <div class="mt-space-md pt-space-sm flex items-center justify-between bg-surface-container-lowest"><span class="font-body-sm text-body-sm text-on-surface-variant">월 예상 추가 절감액</span><span class="font-metric-num text-headline-sm text-primary font-bold">약 42,000원</span></div>
+      </article>
+
+      <article class="w-full bg-surface-container-lowest rounded-[2rem] p-space-md shadow-[0_4px_20px_-2px_rgba(6,78,59,0.04)] transition-all duration-200">
+        <div class="flex items-start justify-between gap-space-sm">
+          <div class="flex items-center gap-space-sm"><div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[22px]" style="font-variation-settings:&quot;FILL&quot; 1;">mode_fan</span></div><div><span class="font-label-sm text-label-sm text-primary font-semibold">스마트 공조</span><h3 class="font-headline-sm text-headline-sm text-on-surface">심야 환기·냉난방 스케줄링</h3></div></div>
+          <button aria-checked="true" class="relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full bg-primary p-0.5 transition-colors duration-200 ease-in-out focus:outline-none" data-toggle="solution-2" role="switch" type="button"><span class="pointer-events-none inline-block h-6 w-6 transform rounded-full bg-surface-container-lowest shadow-sm transition duration-200 ease-in-out translate-x-5"></span></button>
+        </div>
+        <div class="mt-space-sm flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low text-on-surface-variant w-fit font-label-sm text-label-sm"><span class="material-symbols-outlined text-[15px]">bedtime</span><span>02:00 ~ 08:00 (심야 저밀도 운영 시간)</span></div>
+        <div class="mt-space-md space-y-space-sm">
+          <div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span><p class="font-body-sm text-body-sm text-on-surface">이용률 30% 이하 시 환기팬 간헐 운전 (15분 가동 / 10분 정지)</p></div>
+          <div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span><p class="font-body-sm text-body-sm text-on-surface">실내 온·습도 센서 연동 자동 인버터 압축기 정밀 제어</p></div>
+        </div>
+        <div class="mt-space-md pt-space-sm flex items-center justify-between bg-surface-container-lowest"><span class="font-body-sm text-body-sm text-on-surface-variant">월 예상 추가 절감액</span><span class="font-metric-num text-headline-sm text-primary font-bold">약 35,000원</span></div>
+      </article>
+
+      <article class="w-full bg-surface-container-lowest rounded-[2rem] p-space-md shadow-[0_4px_20px_-2px_rgba(6,78,59,0.04)] transition-all duration-200">
+        <div class="flex items-start justify-between gap-space-sm">
+          <div class="flex items-center gap-space-sm"><div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[22px]" style="font-variation-settings:&quot;FILL&quot; 1;">skillet</span></div><div><span class="font-label-sm text-label-sm text-primary font-semibold">주방 설비 최적화</span><h3 class="font-headline-sm text-headline-sm text-on-surface">조리 설비 피크 분산</h3></div></div>
+          <button aria-checked="true" class="relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full bg-primary p-0.5 transition-colors duration-200 ease-in-out focus:outline-none" data-toggle="solution-3" role="switch" type="button"><span class="pointer-events-none inline-block h-6 w-6 transform rounded-full bg-surface-container-lowest shadow-sm transition duration-200 ease-in-out translate-x-5"></span></button>
+        </div>
+        <div class="mt-space-sm flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low text-on-surface-variant w-fit font-label-sm text-label-sm"><span class="material-symbols-outlined text-[15px]">timer</span><span>주문 비집중 시간대 상시 제어</span></div>
+        <div class="mt-space-md space-y-space-sm">
+          <div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span><p class="font-body-sm text-body-sm text-on-surface">튀김기·대용량 온수기 스마트 타이머 프리히팅 분산 가동</p></div>
+          <div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span><p class="font-body-sm text-body-sm text-on-surface">주문 없는 시간 10분 초과 시 보온 대기모드 자동 전환</p></div>
+        </div>
+        <div class="mt-space-md pt-space-sm flex items-center justify-between bg-surface-container-lowest"><span class="font-body-sm text-body-sm text-on-surface-variant">월 예상 추가 절감액</span><span class="font-metric-num text-headline-sm text-primary font-bold">약 18,000원</span></div>
+      </article>
+
+      <div class="p-space-md rounded-[2rem] bg-surface-container-low flex items-start gap-space-sm"><span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">info</span><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">설정된 솔루션은 매장 내 스마트 플러그 및 IoT 전력량계와 실시간 연동되어 손님 이용에 불편함이 없도록 좌석 센싱 후 자동 작동합니다.</p></div>
+    </div>
+  </main>
+
+  <div class="absolute bottom-0 left-0 right-0 z-40 bg-gradient-to-t from-surface via-surface/90 to-transparent pb-safe pt-6 px-margin-mobile flex justify-center" style="--tw-gradient-from:#f8fafc;">
+    <div class="w-full pb-4"><button class="w-full h-14 rounded-full bg-primary text-on-primary font-headline-sm text-headline-sm font-bold flex items-center justify-center shadow-[0_12px_32px_-4px_rgba(5,150,105,0.2)] active:scale-[0.98] transition-transform duration-150" onclick="goTo('myinfo')" type="button">메인화면으로</button></div>
+  </div>
+
+</section>
+{% endblock %}
