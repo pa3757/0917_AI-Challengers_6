@@ -1,0 +1,532 @@
+
+
+[
+  {
+    "question_id": "Q01",
+    "section": "basic",
+    "category": "store_scale",
+    "question": "PC방 좌석은 총 몇 석인가요?",
+    "type": "number",
+    "required": true,
+    "purpose": "calculation_input",
+    "unit": "seat",
+    "validation": {
+      "min": 1,
+      "max": 500
+    }
+  },
+  {
+    "question_id": "Q02",
+    "section": "basic",
+    "category": "business_hours",
+    "question": "하루 평균 몇 시간 영업하시나요?",
+    "type": "number",
+    "required": true,
+    "purpose": "calculation_input",
+    "unit": "hour_per_day",
+    "validation": {
+      "min": 1,
+      "max": 24
+    }
+  },
+  {
+    "question_id": "Q03",
+    "section": "basic",
+    "category": "occupancy",
+    "question": "영업시간 전체를 평균으로 보면 빈 좌석 비율은 어느 정도인가요?",
+    "type": "single_select",
+    "required": true,
+    "purpose": "risk_context",
+    "options": [
+      {
+        "code": "EMPTY_0_10",
+        "label": "0~10%"
+      },
+      {
+        "code": "EMPTY_11_30",
+        "label": "11~30%"
+      },
+      {
+        "code": "EMPTY_31_50",
+        "label": "31~50%"
+      },
+      {
+        "code": "EMPTY_51_PLUS",
+        "label": "51% 이상"
+      },
+      {
+        "code": "UNKNOWN",
+        "label": "모름"
+      }
+    ]
+  },
+  {
+    "question_id": "Q04",
+    "section": "basic",
+    "category": "monthly_energy",
+    "question": "최근 한 달 전기사용량을 알고 계신가요?",
+    "type": "number_or_unknown",
+    "required": false,
+    "purpose": "calculation_validation",
+    "unit": "kWh_per_month",
+    "validation": {
+      "min": 0
+    },
+    "unknown_code": "UNKNOWN"
+  },
+  {
+    "question_id": "Q05",
+    "section": "pc_monitor",
+    "category": "idle_power_management",
+    "question": "손님이 없는 좌석의 PC와 모니터는 보통 어떻게 관리하시나요?",
+    "type": "single_select",
+    "required": true,
+    "purpose": "diagnostic",
+    "options": [
+      {
+        "code": "BOTH_AUTO_SAVE",
+        "label": "PC·모니터 모두 자동 종료 또는 절전"
+      },
+      {
+        "code": "MANUAL_OFF",
+        "label": "직원이 직접 종료"
+      },
+      {
+        "code": "MONITOR_ONLY_OFF",
+        "label": "모니터만 끔"
+      },
+      {
+        "code": "BOTH_ON",
+        "label": "PC와 모니터 모두 켜둠"
+      },
+      {
+        "code": "VARIES",
+        "label": "상황마다 다름"
+      },
+      {
+        "code": "UNKNOWN",
+        "label": "모름"
+      }
+    ]
+  },
+  {
+    "question_id": "Q06",
+    "section": "pc_monitor",
+    "category": "idle_transition",
+    "question": "손님이 자리를 떠난 뒤 PC·모니터가 자동 절전 또는 종료 상태가 되기까지 보통 얼마나 걸리나요?",
+    "type": "single_select",
+    "required": true,
+    "purpose": "diagnostic",
+    "options": [
+      {
+        "code": "IMMEDIATE",
+        "label": "이용 종료와 거의 동시에"
+      },
+      {
+        "code": "WITHIN_5_MIN",
+        "label": "5분 이내"
+      },
+      {
+        "code": "MIN_5_15",
+        "label": "5~15분"
+      },
+      {
+        "code": "MIN_15_30",
+        "label": "15~30분"
+      },
+      {
+        "code": "OVER_30_MIN",
+        "label": "30분 이상"
+      },
+      {
+        "code": "NO_AUTO_SLEEP",
+        "label": "자동 절전 기능 없음"
+      },
+      {
+        "code": "UNKNOWN",
+        "label": "모름"
+      }
+    ]
+  },
+  {
+    "question_id": "Q07",
+    "section": "pc_operation",
+    "category": "update_idle",
+    "question": "게임 업데이트·점검 작업 전후에 빈 좌석 PC는 어떻게 관리하시나요?",
+    "type": "single_select",
+    "required": true,
+    "purpose": "diagnostic",
+    "options": [
+      {
+        "code": "JUST_IN_TIME_AUTO_OFF",
+        "label": "필요한 시간에만 켜고 완료 후 자동 종료 또는 절전"
+      },
+      {
+        "code": "JUST_IN_TIME_MANUAL_OFF",
+        "label": "필요할 때 켜고 직원이 직접 종료"
+      },
+      {
+        "code": "PRE_POWER_ON",
+        "label": "업데이트·점검 전에 미리 켜두는 시간이 있음"
+      },
+      {
+        "code": "POST_KEEP_ON",
+        "label": "작업 완료 후에도 한동안 켜둠"
+      },
+      {
+        "code": "PRE_POST_LONG_ON",
+        "label": "작업 전후 모두 장시간 켜두는 편"
+      },
+      {
+        "code": "NOT_APPLICABLE",
+        "label": "해당 없음"
+      },
+      {
+        "code": "UNKNOWN",
+        "label": "모름"
+      }
+    ]
+  },
+  {
+    "question_id": "Q08",
+    "section": "pc_monitor",
+    "category": "residual_standby_power",
+    "question": "PC를 종료한 뒤에도 빈 좌석의 키보드·마우스·헤드셋 거치대·USB 허브 등에 불빛이나 전원이 남아 있나요?",
+    "type": "single_select",
+    "required": true,
+    "purpose": "diagnostic",
+    "options": [
+      {
+        "code": "ALL_OFF",
+        "label": "모두 꺼짐"
+      },
+      {
+        "code": "SOME_POWERED",
+        "label": "일부 장비만 전원이 남아 있음"
+      },
+      {
+        "code": "MULTIPLE_POWERED",
+        "label": "여러 장비가 계속 켜져 있음"
+      },
+      {
+        "code": "NOT_CHECKED_BECAUSE_ALWAYS_ON",
+        "label": "PC를 거의 종료하지 않아 확인한 적 없음"
+      },
+      {
+        "code": "UNKNOWN",
+        "label": "모름"
+      }
+    ]
+  },
+  {
+    "question_id": "Q09",
+    "section": "hvac",
+    "category": "cooling_setpoint",
+    "question": "여름철 에어컨 설정온도는 보통 몇 ℃인가요?",
+    "type": "single_select",
+    "required": true,
+    "purpose": "diagnostic",
+    "options": [
+      {
+        "code": "TEMP_LE_22",
+        "label": "22℃ 이하"
+      },
+      {
+        "code": "TEMP_23_24",
+        "label": "23~24℃"
+      },
+      {
+        "code": "TEMP_25",
+        "label": "25℃"
+      },
+      {
+        "code": "TEMP_GE_26",
+        "label": "26℃ 이상"
+      },
+      {
+        "code": "VARIES",
+        "label": "상황에 따라 다름"
+      },
+      {
+        "code": "NO_AC",
+        "label": "미사용 또는 냉방설비 없음"
+      },
+      {
+        "code": "UNKNOWN",
+        "label": "모름"
+      }
+    ]
+  },
+  {
+    "question_id": "Q10",
+    "section": "hvac",
+    "category": "indoor_temperature_monitoring",
+    "question": "에어컨 리모컨의 설정온도 외에 실제 PC방 실내온도를 확인하면서 냉방을 조절하시나요?",
+    "type": "single_select",
+    "required": true,
+    "purpose": "diagnostic",
+    "options": [
+      {
+        "code": "ALWAYS_MEASURE",
+        "label": "별도 온도계 등으로 실제 실내온도를 항상 확인"
+      },
+      {
+        "code": "SOMETIMES_MEASURE",
+        "label": "가끔 확인"
+      },
+      {
+        "code": "SETPOINT_ONLY",
+        "label": "에어컨 설정값만 확인"
+      },
+      {
+        "code": "NEVER_MEASURE",
+        "label": "실제 실내온도를 별도로 확인하지 않음"
+      },
+      {
+        "code": "NO_AC",
+        "label": "미사용 또는 냉방설비 없음"
+      },
+      {
+        "code": "UNKNOWN",
+        "label": "모름"
+      }
+    ]
+  },
+  {
+    "question_id": "Q11",
+    "section": "hvac",
+    "category": "filter_maintenance",
+    "question": "에어컨 필터는 얼마나 자주 점검·청소하시나요?",
+    "type": "single_select",
+    "required": true,
+    "purpose": "diagnostic",
+    "options": [
+      {
+        "code": "WITHIN_2_WEEKS",
+        "label": "2주 이내"
+      },
+      {
+        "code": "TWO_WEEKS_TO_1_MONTH",
+        "label": "2주 초과~1개월"
+      },
+      {
+        "code": "ONE_TO_3_MONTHS",
+        "label": "1개월 초과~3개월"
+      },
+      {
+        "code": "OVER_3_MONTHS",
+        "label": "3개월 초과"
+      },
+      {
+        "code": "RARELY",
+        "label": "거의 하지 않음"
+      },
+      {
+        "code": "NO_AC",
+        "label": "미사용 또는 냉방설비 없음"
+      },
+      {
+        "code": "UNKNOWN",
+        "label": "모름"
+      }
+    ]
+  },
+  {
+    "question_id": "Q12",
+    "section": "hvac",
+    "category": "outdoor_unit_heat",
+    "question": "에어컨이 작동할 때 실외기 주변의 열기가 잘 빠져나가는지 확인해본 적이 있나요?",
+    "type": "single_select",
+    "required": true,
+    "purpose": "diagnostic",
+    "options": [
+      {
+        "code": "OPEN_GOOD_VENTILATION",
+        "label": "주변이 개방되어 있고 통풍이 잘 됨"
+      },
+      {
+        "code": "SOME_OBSTACLE",
+        "label": "벽이나 장애물이 다소 가까움"
+      },
+      {
+        "code": "MULTI_UNIT_TIGHT_SPACE",
+        "label": "좁은 공간에 여러 실외기가 밀집되어 있음"
+      },
+      {
+        "code": "HOT_AIR_STAGNATES",
+        "label": "가동 시 실외기 주변에 뜨거운 공기가 심하게 머무름"
+      },
+      {
+        "code": "NEVER_CHECKED",
+        "label": "확인해본 적 없음"
+      },
+      {
+        "code": "NO_AC",
+        "label": "냉방설비 없음"
+      },
+      {
+        "code": "UNKNOWN",
+        "label": "모름"
+      }
+    ]
+  },
+  {
+    "question_id": "Q13",
+    "section": "low_occupancy",
+    "category": "zone_operation",
+    "question": "손님이 적은 새벽·심야 시간에는 좌석을 특정 구역으로 모아서 운영하시나요?",
+    "type": "single_select",
+    "required": true,
+    "purpose": "diagnostic",
+    "options": [
+      {
+        "code": "ZONE_FOCUSED",
+        "label": "특정 구역 중심으로 운영"
+      },
+      {
+        "code": "SOMETIMES_ZONE",
+        "label": "일부 시간에만 특정 구역으로 운영"
+      },
+      {
+        "code": "FREE_SEATING_ALL",
+        "label": "매장 전체를 자유롭게 이용"
+      },
+      {
+        "code": "ZONE_CONTROL_DIFFICULT",
+        "label": "구역별 제어가 어려움"
+      },
+      {
+        "code": "UNKNOWN",
+        "label": "모름"
+      }
+    ]
+  },
+  {
+    "question_id": "Q14",
+    "section": "low_occupancy",
+    "category": "baseload_awareness",
+    "question": "손님이 가장 적은 시간에도 계속 켜져 있는 설비가 무엇인지 구분해서 확인하고 있나요?",
+    "type": "single_select",
+    "required": true,
+    "purpose": "diagnostic",
+    "options": [
+      {
+        "code": "ALL_EQUIPMENT_TRACKED",
+        "label": "PC·냉방·조명·냉장·주방설비별로 확인하고 있음"
+      },
+      {
+        "code": "ROUGHLY_KNOWN_NOT_RECORDED",
+        "label": "대략 알고 있지만 기록하지 않음"
+      },
+      {
+        "code": "SOME_EQUIPMENT_ONLY",
+        "label": "일부 설비만 알고 있음"
+      },
+      {
+        "code": "DONT_KNOW_ACTIVE_LOADS",
+        "label": "어떤 설비가 계속 전력을 쓰는지 잘 모름"
+      },
+      {
+        "code": "NEVER_CHECKED",
+        "label": "확인해본 적 없음"
+      }
+    ]
+  },
+  {
+    "question_id": "Q15",
+    "section": "energy_monitoring",
+    "category": "time_of_use_monitoring",
+    "question": "손님이 가장 적은 시간대에도 매장 전력사용량이 얼마나 내려가는지 확인해본 적이 있나요?",
+    "type": "single_select",
+    "required": true,
+    "purpose": "diagnostic",
+    "options": [
+      {
+        "code": "TIME_OF_USE_REGULAR",
+        "label": "시간대별 전력사용량을 정기적으로 확인"
+      },
+      {
+        "code": "SOMETIMES_TIME_OF_USE",
+        "label": "가끔 시간대별 사용량을 확인"
+      },
+      {
+        "code": "MONTHLY_KWH_ONLY",
+        "label": "월 전기사용량만 확인"
+      },
+      {
+        "code": "BILL_ONLY",
+        "label": "전기요금만 확인"
+      },
+      {
+        "code": "NEVER_CHECKED",
+        "label": "한 번도 확인하지 않음"
+      }
+    ]
+  },
+  {
+    "question_id": "Q16",
+    "section": "refrigeration",
+    "category": "door_heater",
+    "question": "음료 냉장고·냉장 쇼케이스의 유리문 결로를 막는 히터 기능이 있는지, 어떻게 작동하는지 알고 계신가요?",
+    "type": "single_select",
+    "required": true,
+    "purpose": "diagnostic",
+    "options": [
+      {
+        "code": "AUTO_CONTROLLED",
+        "label": "히터가 있고 온·습도 등에 따라 자동 제어됨"
+      },
+      {
+        "code": "ALWAYS_ON_KNOWN",
+        "label": "히터가 있고 항상 작동하는 것으로 알고 있음"
+      },
+      {
+        "code": "EXISTS_CONTROL_UNKNOWN",
+        "label": "히터 기능은 있지만 제어방식을 모름"
+      },
+      {
+        "code": "NO_HEATER",
+        "label": "그런 기능이 없는 제품임"
+      },
+      {
+        "code": "DONT_KNOW_IF_EXISTS",
+        "label": "히터 기능이 있는지 자체를 모름"
+      },
+      {
+        "code": "NO_EQUIPMENT",
+        "label": "해당 냉장·쇼케이스 설비 없음"
+      }
+    ]
+  },
+  {
+    "question_id": "Q17",
+    "section": "refrigeration",
+    "category": "defrost_control",
+    "question": "냉장·냉동 쇼케이스의 성에 제거(제상) 기능이 언제, 어떻게 작동하는지 확인해본 적이 있나요?",
+    "type": "single_select",
+    "required": true,
+    "purpose": "diagnostic",
+    "options": [
+      {
+        "code": "DEMAND_BASED_AUTO",
+        "label": "상태에 따라 자동 제어됨"
+      },
+      {
+        "code": "FIXED_SCHEDULE",
+        "label": "정해진 시간마다 작동함"
+      },
+      {
+        "code": "SETTING_UNKNOWN",
+        "label": "설정은 있지만 어떤 기준인지 모름"
+      },
+      {
+        "code": "DONT_KNOW_IF_EXISTS",
+        "label": "그런 기능이 있는지도 모름"
+      },
+      {
+        "code": "NO_EQUIPMENT",
+        "label": "해당 냉장·냉동 설비 없음"
+      }
+    ]
+  }
+]

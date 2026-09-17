@@ -1,0 +1,13 @@
+mapping_id,question_id,answer_code,parameter,value_min,value_max,unit,mapping_type,notes
+MAP_Q03_01,Q03,EMPTY_0_10,EMPTY_SEAT_RATE,0,0.10,ratio,range,설문 범위를 그대로 유지하며 평균값으로 치환하지 않음
+MAP_Q03_02,Q03,EMPTY_11_30,EMPTY_SEAT_RATE,0.11,0.30,ratio,range,설문 범위를 그대로 유지하며 평균값으로 치환하지 않음
+MAP_Q03_03,Q03,EMPTY_31_50,EMPTY_SEAT_RATE,0.31,0.50,ratio,range,설문 범위를 그대로 유지하며 평균값으로 치환하지 않음
+MAP_Q03_04,Q03,EMPTY_51_PLUS,EMPTY_SEAT_RATE,0.51,,ratio,lower_bound,51% 이상 응답의 상한은 임의 생성하지 않음
+MAP_Q03_05,Q03,UNKNOWN,EMPTY_SEAT_RATE,,,ratio,unknown,UNKNOWN은 0으로 변환하지 않음
+MAP_Q06_01,Q06,IMMEDIATE,IDLE_TRANSITION_TIME,0,0,min/event,point,이용 종료와 거의 동시에 전환되는 응답을 0분 경계로 표현
+MAP_Q06_02,Q06,WITHIN_5_MIN,IDLE_TRANSITION_TIME,0,5,min/event,range,설문 범위를 그대로 유지
+MAP_Q06_03,Q06,MIN_5_15,IDLE_TRANSITION_TIME,5,15,min/event,range,설문 범위를 그대로 유지
+MAP_Q06_04,Q06,MIN_15_30,IDLE_TRANSITION_TIME,15,30,min/event,range,설문 범위를 그대로 유지
+MAP_Q06_05,Q06,OVER_30_MIN,IDLE_TRANSITION_TIME,30,,min/event,lower_bound,30분 이상의 상한은 임의 생성하지 않음
+MAP_Q06_06,Q06,NO_AUTO_SLEEP,IDLE_TRANSITION_TIME,,,min/event,non_numeric,자동 절전 없음은 특정 분 값으로 치환하지 않음
+MAP_Q06_07,Q06,UNKNOWN,IDLE_TRANSITION_TIME,,,min/event,unknown,UNKNOWN은 0으로 변환하지 않음

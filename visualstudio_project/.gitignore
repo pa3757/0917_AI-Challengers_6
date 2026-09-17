@@ -1,0 +1,10 @@
+# Secrets
+.env
+
+# Generated vector DB
+chroma_db/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/

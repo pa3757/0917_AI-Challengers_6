@@ -1,0 +1,60 @@
+[
+  {
+    "rule_id": "CR01",
+    "rule_name": "PC_IDLE_WINDOW_LEAK",
+    "waste_code": "PC_IDLE_WINDOW_LEAK",
+    "conditions": {
+      "Q02": {"op": ">=", "value": 20},
+      "Q03": {"op": "in", "value": ["EMPTY_31_50", "EMPTY_51_PLUS"]},
+      "Q06": {"op": "in", "value": ["OVER_30_MIN", "NO_AUTO_SLEEP"]}
+    },
+    "bonus_points": 3,
+    "reason": "장시간 운영, 높은 빈 좌석률, 긴 절전 전환시간이 동시에 확인되어 반복 유휴전력 발생 가능성이 높음"
+  },
+  {
+    "rule_id": "CR02",
+    "rule_name": "HIDDEN_BASELOAD_RISK",
+    "waste_code": "HIDDEN_BASELOAD_RISK",
+    "conditions": {
+      "Q14": {"op": "in", "value": ["DONT_KNOW_ACTIVE_LOADS", "NEVER_CHECKED"]},
+      "Q15": {"op": "in", "value": ["MONTHLY_KWH_ONLY", "BILL_ONLY", "NEVER_CHECKED"]}
+    },
+    "bonus_points": 3,
+    "reason": "저이용 시간에도 어떤 설비가 전력을 사용하는지와 시간대별 사용량을 모두 파악하지 못함"
+  },
+  {
+    "rule_id": "CR03",
+    "rule_name": "PC_IDLE_WITH_LONG_OPERATION",
+    "waste_code": "PC_IDLE_ON",
+    "conditions": {
+      "Q02": {"op": ">=", "value": 20},
+      "Q03": {"op": "in", "value": ["EMPTY_31_50", "EMPTY_51_PLUS"]},
+      "Q05": {"op": "in", "value": ["BOTH_ON", "VARIES"]}
+    },
+    "bonus_points": 2,
+    "reason": "장시간 영업 중 빈 좌석 PC가 계속 켜져 있을 가능성이 높음"
+  },
+  {
+    "rule_id": "CR04",
+    "rule_name": "PC_OFF_STANDBY_LEAK",
+    "waste_code": "PC_OFF_STANDBY_LEAK",
+    "conditions": {
+      "Q05": {"op": "in", "value": ["MANUAL_OFF", "BOTH_AUTO_SAVE", "MONITOR_ONLY_OFF"]},
+      "Q08": {"op": "in", "value": ["SOME_POWERED", "MULTIPLE_POWERED"]}
+    },
+    "bonus_points": 2,
+    "reason": "PC 본체 종료 후에도 주변기기에 전원이 남아 있어 잔류 대기전력 가능성이 있음"
+  },
+  {
+    "rule_id": "CR05",
+    "rule_name": "LOW_OCCUPANCY_BASELOAD",
+    "waste_code": "HIDDEN_BASELOAD_RISK",
+    "conditions": {
+      "Q03": {"op": "in", "value": ["EMPTY_31_50", "EMPTY_51_PLUS"]},
+      "Q13": {"op": "in", "value": ["FREE_SEATING_ALL", "ZONE_CONTROL_DIFFICULT"]},
+      "Q14": {"op": "in", "value": ["SOME_EQUIPMENT_ONLY", "DONT_KNOW_ACTIVE_LOADS", "NEVER_CHECKED"]}
+    },
+    "bonus_points": 2,
+    "reason": "빈 좌석이 많은 시간에도 공간과 설비가 넓게 운영되어 기저부하가 유지될 가능성이 있음"
+  }
+]

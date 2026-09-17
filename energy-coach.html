@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Energy Coach | AI 에너지 코치</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          "on-error": "#ffffff", "on-surface-variant": "#3d4a42", "secondary-fixed": "#b0f0d6",
+          "secondary": "#2b6954", "secondary-fixed-dim": "#95d3ba", "surface-variant": "#dce2f7",
+          "tertiary-fixed": "#6ffbbe", "on-secondary-fixed": "#002117", "on-primary-container": "#f5fff7",
+          "primary-container": "#00855d", "on-error-container": "#93000a", "primary-fixed-dim": "#68dba9",
+          "tertiary-fixed-dim": "#4edea3", "surface": "#f9f9ff", "surface-container-high": "#e1e8fd",
+          "on-tertiary-fixed-variant": "#005236", "on-tertiary-fixed": "#002113", "inverse-surface": "#293040",
+          "on-primary": "#ffffff", "primary": "#006948", "surface-container-low": "#f1f3ff",
+          "on-surface": "#141b2b", "error-container": "#ffdad6", "surface-container-lowest": "#ffffff",
+          "surface-container": "#e9edff", "background": "#f9f9ff", "on-primary-fixed": "#002114",
+          "surface-dim": "#d3daef", "on-tertiary": "#ffffff", "outline": "#6d7a72",
+          "surface-container-highest": "#dce2f7", "tertiary": "#006947", "outline-variant": "#bccac0",
+          "on-primary-fixed-variant": "#005137", "on-secondary-container": "#306d58", "inverse-primary": "#68dba9",
+          "surface-bright": "#f9f9ff", "surface-tint": "#006c4a", "tertiary-container": "#00855b",
+          "on-tertiary-container": "#f5fff6", "on-secondary-fixed-variant": "#0b513d", "primary-fixed": "#85f8c4",
+          "secondary-container": "#adedd3", "error": "#ba1a1a", "on-secondary": "#ffffff",
+          "inverse-on-surface": "#edf0ff", "on-background": "#141b2b",
+          tossGreen: { 50:'#F0FDF4',100:'#DCFCE7',200:'#BBF7D0',500:'#22C55E',600:'#16A34A',700:'#15803D',800:'#166534',900:'#14532D' },
+          subtleGray: '#F9FAFB', cardBg: '#FFFFFF',
+          tossText: { main:'#191F28', sub:'#6B7684', muted:'#8B95A1' }
+        },
+        spacing: {
+          "space-xs": "0.25rem", "gutter": "0.75rem", "space-md": "1rem", "margin": "1.25rem",
+          "space-xl": "2.25rem", "space-sm": "0.5rem", "space-lg": "1.5rem",
+          "gutter-mobile": "0.5rem", "margin-mobile": "1rem"
+        },
+        fontFamily: {
+          sans: ['Pretendard', '"Hanken Grotesk"', '-apple-system', 'BlinkMacSystemFont', 'Apple SD Gothic Neo', 'Malgun Gothic', 'sans-serif'],
+          display: ['"Manrope"', 'sans-serif'],
+          "display-lg": ["Manrope"], "label-lg": ["Hanken Grotesk"], "body-sm": ["Hanken Grotesk"],
+          "label-sm": ["Hanken Grotesk"], "metric-num": ["Manrope"], "display-lg-mobile": ["Manrope"],
+          "body-md": ["Hanken Grotesk"], "headline-sm": ["Manrope"], "headline-lg": ["Manrope"],
+          "headline-md": ["Manrope"], "body-lg": ["Hanken Grotesk"]
+        },
+        fontSize: {
+          "display-lg": ["40px", { lineHeight: "48px", letterSpacing: "-0.03em", fontWeight: "800" }],
+          "label-lg": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "600" }],
+          "body-sm": ["13px", { lineHeight: "19px", letterSpacing: "0em", fontWeight: "400" }],
+          "label-sm": ["11px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }],
+          "metric-num": ["28px", { lineHeight: "34px", letterSpacing: "-0.03em", fontWeight: "700" }],
+          "display-lg-mobile": ["32px", { lineHeight: "40px", letterSpacing: "-0.03em", fontWeight: "800" }],
+          "body-md": ["15px", { lineHeight: "23px", letterSpacing: "-0.005em", fontWeight: "400" }],
+          "headline-sm": ["18px", { lineHeight: "26px", letterSpacing: "-0.01em", fontWeight: "600" }],
+          "headline-lg": ["26px", { lineHeight: "34px", letterSpacing: "-0.02em", fontWeight: "700" }],
+          "headline-md": ["22px", { lineHeight: "30px", letterSpacing: "-0.02em", fontWeight: "700" }],
+          "body-lg": ["17px", { lineHeight: "26px", letterSpacing: "-0.01em", fontWeight: "500" }]
+        }
+      }
+    }
+  };
+</script>
+
+<style>
+  :root { color-scheme: light; }
+  html, body { margin:0; padding:0; background:#eef1f5; -webkit-font-smoothing:antialiased; overscroll-behavior-y:none; }
+  ::-webkit-scrollbar { display:none; }
+  * { scrollbar-width:none; }
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+
+  /* ---- phone frame + screen router ---- */
+  #phone { position:relative; overflow:hidden; }
+  .screen { position:absolute; inset:0; display:none; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch; background:#fff; }
+  .screen.active { display:flex; }
+  .scr-main { min-height:0; }
+
+  /* ---- cover screen bg (0) ---- */
+  .soft-mint-bg { background-color:#edfcf2; background-image: radial-gradient(circle at 50% 20%, rgba(255,255,255,0.8) 0%, transparent 60%), linear-gradient(180deg, #e8f5e9 0%, #dcfce7 45%, #bbf7d0 100%); }
+  .dot-pattern-overlay { background-image:url('https://lh3.googleusercontent.com/aida-public/AB6AXuAA0E3Q76jWElhXMhpYxIrgV3AMhxO480SaUb5Z_IKwNUvP-BQIawGTdZ_k7DLfLSbY5osuodregJCyJQV2t_HIje7a7bj-3Dz0QKHVVJOLyQFqAPeGMfr3_ZcfuQuVFdrFYcZLrZ5wJXhkuuWd_CR8szYxW3af5FDRRhN-8Ck1lP04n0kUZl2bigd7iMtqsZ_S-BCzLBq6lzXPpx_DeZS_6ka4IEYwAToDUV14LZ0MK-czvWMh7E908CT5gwIqYIPlVWc'); background-repeat:repeat; background-size:226px auto; mix-blend-mode:multiply; opacity:0.45; }
+  .ambient-glow-1 { filter:blur(50px); background: radial-gradient(circle, rgba(134,239,172,0.6) 0%, rgba(255,255,255,0) 70%); }
+  .ambient-glow-2 { filter:blur(60px); background: radial-gradient(circle, rgba(52,211,153,0.35) 0%, rgba(255,255,255,0) 70%); }
+
+  /* ---- diagnosis screen (2) ---- */
+  .progress-circle-bg { stroke:#E5E8EB; }
+  .progress-circle-val { stroke:#006948; stroke-linecap:round; stroke-dasharray:175.93; stroke-dashoffset:84.45; transform:rotate(-90deg); transform-origin:50% 50%; transition:stroke-dashoffset 1s ease-in-out; }
+
+  /* ---- results screen (4) bg ---- */
+  .toss-card-shadow { box-shadow: 0 4px 20px -2px rgba(0,0,0,0.05), 0 2px 6px -1px rgba(0,0,0,0.02); }
+  .toss-dot-bg { background-color:#F4F6F8; background-image:url('https://lh3.googleusercontent.com/aida-public/AB6AXuBkqi347gJL76fKz8nkTzZN-sRvTmci4w2AQf6OMHf3uSV2qO1hdbUFbPDbzLrogGNVLFga8B4bP59Uzg6oJdBdx8gvestf6Tz_i7ag6B77qF9aS_gVjEOrHvE5o2OMDh2m1no9JaPYfbKbw23cdQPvnastCmgi3vn0UcOPKOYtFg7jVKwSX3DBipLxgWiAuiXnUDVjmp6p1VffFSxCzmcTPwVlsH3YIOQkmdBQODB87ol4MmTFxWQpQhUh3Oi7gaRtfw4'); background-repeat:repeat; background-size:226px 108px; }
+
+  /* ---- guide / solution screens (3, 5) micro-dot bg ---- */
+  .micro-dot-bg { background-image: radial-gradient(#141b2b 0.75px, transparent 0.75px); background-size:16px 16px; }
+
+  /* ---- survey radio / option selection (CSS :has, no JS needed for visual state) ---- */
+  .q-option { display:flex; align-items:center; gap:0.75rem; padding:0.875rem; border-radius:0.75rem; background:#fff; border:1px solid #e5e7eb; cursor:pointer; transition:all .15s ease; }
+  .q-option:hover { border-color:#d1d5db; }
+  .q-option:has(input:checked) { background-color: rgba(16,185,129,0.08); border-color:#059669; border-width:2px; padding:calc(0.875rem - 1px); box-shadow:0 1px 2px 0 rgba(0,0,0,.05); }
+  .q-dot { width:1.25rem; height:1.25rem; border-radius:9999px; border:1px solid #d1d5db; display:flex; align-items:center; justify-content:center; background:#fff; flex-shrink:0; transition:all .15s ease; }
+  .q-option:has(input:checked) .q-dot { background:#059669; border-color:#059669; border-width:2px; }
+  .q-check { width:0.75rem; height:0.75rem; color:#fff; opacity:0; transition:opacity .15s ease; }
+  .q-option:has(input:checked) .q-check { opacity:1; }
+  .q-label-text { font-size:0.75rem; color:#1f2937; font-weight:500; line-height:1.6; }
+  .q-option:has(input:checked) .q-label-text { color:#022c22; font-weight:700; }
+  .cat-chip { flex-shrink:0; padding:0.5rem 0.9rem; border-radius:9999px; font-size:0.75rem; font-weight:700; background:#f3f4f6; color:#4b5563; border:1px solid transparent; transition:all .15s ease; white-space:nowrap; }
+  .cat-chip.active { background:#14532d; color:#fff; box-shadow:0 1px 2px rgba(0,0,0,.08); }
+  .survey-question { display:none; }
+  .survey-question.active { display:block; }
+
+  /* ---- step indicator pill nav (clickable) ---- */
+  .step-pill { cursor:pointer; }
+</style>
+</head>
+<body class="bg-slate-200 flex items-center justify-center min-h-screen p-0 sm:p-4 font-sans" style="background-color:#e2e8f0;">
+
+<div id="phone" class="w-full max-w-[420px] h-[844px] max-h-screen bg-white sm:rounded-[44px] shadow-2xl border border-emerald-200/50">
+
+<section id="screen-cover" class="screen active soft-mint-bg relative select-none">
+  <div class="absolute inset-0 dot-pattern-overlay pointer-events-none z-0"></div>
+  <div class="absolute top-[22%] left-1/2 -translate-x-1/2 w-80 h-80 rounded-full ambient-glow-1 pointer-events-none z-0"></div>
+  <div class="absolute bottom-[20%] right-[-10%] w-72 h-72 rounded-full ambient-glow-2 pointer-events-none z-0"></div>
+
+  <header class="w-full pt-3.5 px-7 flex justify-between items-center z-20 text-slate-800 font-medium text-xs tracking-tight shrink-0">
+    <span class="text-[15px] font-bold tracking-tight text-slate-900">9:41</span>
+    <div class="flex items-center space-x-2">
+      <svg class="w-4 h-4 fill-slate-800" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9z" opacity="0.3"></path><circle cx="12" cy="12" r="3"></circle></svg>
+      <svg class="w-4 h-4 fill-slate-800" viewBox="0 0 24 24"><path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98A16.88 16.88 0 0012 4z"></path></svg>
+      <div class="w-5 h-2.5 border border-slate-700 rounded-sm p-0.5 flex items-center"><div class="h-full w-3 bg-slate-800 rounded-2xs"></div></div>
+    </div>
+  </header>
+
+  <section class="flex-1 flex flex-col items-center justify-center px-5 z-10 w-full">
+    <div class="w-full flex flex-col items-center text-center relative overflow-hidden">
+      <div class="w-16 h-16 rounded-full bg-emerald-700 flex items-center justify-center mb-6 shadow-lg shadow-emerald-800/25"><span class="material-symbols-outlined text-white text-[32px]">eco</span></div>
+      <h1 class="text-[34px] sm:text-[38px] font-extrabold text-[#064e3b] tracking-tight leading-tight mb-3 font-display">Energy Coach</h1>
+      <p class="text-slate-600 text-[14px] sm:text-[15px] font-medium leading-relaxed tracking-tight px-1 max-w-[280px]">PC방 전력 낭비 분석부터<br>실시간 요금 최적화까지</p>
+    </div>
+  </section>
+
+  <footer class="w-full px-5 pb-8 z-10 flex flex-col items-center gap-3 shrink-0">
+    <div class="inline-flex items-center gap-2 mb-1"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span><span class="text-[14px] font-semibold text-emerald-900 tracking-tight">AI 에너지 코치</span></div>
+    <button aria-label="서비스 시작하기" onclick="goTo('survey')" class="w-full h-14 bg-emerald-700 active:scale-[0.98] hover:bg-emerald-800 transition-all duration-200 text-white font-bold text-[16px] rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-800/25 cursor-pointer" type="button">시작하기</button>
+    <p class="text-xs text-slate-600 font-medium tracking-tight text-center">스마트 전력 제어 및 요금 최적화 솔루션</p>
+    <div class="w-32 h-1 bg-slate-800/30 rounded-full mt-2"></div>
+  </footer>
+</section>
+
+<section id="screen-survey" class="screen bg-white">
+  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md px-4 py-3 flex items-center justify-between border-b border-gray-100 relative shrink-0">
+    <button aria-label="뒤로가기" onclick="goBack()" class="w-10 h-10 -ml-1.5 flex items-center justify-center text-gray-700 hover:text-black rounded-full hover:bg-gray-100 transition-colors" type="button">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M15.75 19.5L8.25 12l7.5-7.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+    <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-none">
+      <div class="w-6 h-6 rounded-full bg-[#065f46] flex items-center justify-center text-white shadow-sm flex-shrink-0"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6"></path></svg></div>
+      <span class="text-base font-extrabold text-[#141b2b] tracking-tight">Energy Coach</span>
+    </div>
+    <div class="flex items-center gap-0.5">
+      <button aria-label="사용자 프로필" onclick="goTo('myinfo')" class="w-9 h-9 flex items-center justify-center text-gray-600 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors" type="button"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+      <button aria-label="닫기" onclick="closeScreen()" class="w-9 h-9 flex items-center justify-center text-gray-600 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors" type="button"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+    </div>
+  </header>
+
+  <div class="px-4 pt-3 pb-1 shrink-0">
+    <div class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-full border border-gray-200/80 shadow-sm flex items-center justify-between text-[11px] font-medium text-gray-400">
+      <span class="step-pill bg-[#006948] text-white font-bold px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm" onclick="goTo('survey')"><span class="w-1.5 h-1.5 rounded-full bg-[#4ade80]"></span>1. 설문</span>
+      <span class="step-pill px-2 py-0.5" onclick="goTo('diagnosis')">2. 진단</span>
+      <span class="step-pill px-2 py-0.5" onclick="goTo('guide')">3. 가이드</span>
+      <span class="step-pill px-2 py-0.5" onclick="goTo('results')">4. 효과</span>
+    </div>
+  </div>
+
+  <div class="flex-1 px-5 pt-4 pb-6 scr-main">
+    <div class="flex items-center justify-between gap-2 mb-3">
+      <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-semibold tracking-tight border border-emerald-100/80">
+        <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        17개 문항 · 약 3분 소요
+      </div>
+    </div>
+
+    <section class="mb-5">
+      <h1 class="text-2xl font-extrabold text-gray-900 tracking-tight leading-[1.3] mb-2">우리 PC방의<br><span class="text-emerald-700">에너지 습관</span>을 알려주세요</h1>
+      <p class="text-xs text-gray-500 leading-relaxed break-keep">PC, 냉난방, 매장 운영과 냉장 설비 습관을 선택하면 에너지 낭비 요인을 분석해 드려요.</p>
+    </section>
+
+    <nav aria-label="설문 항목 카테고리" class="flex items-center gap-1.5 overflow-x-auto py-1 mb-6 -mx-1 px-1">
+      <button type="button" class="cat-chip active" data-cat="pc" onclick="selectCategory('pc')">PC·모니터</button>
+      <button type="button" class="cat-chip" data-cat="hvac" onclick="selectCategory('hvac')">냉난방·환기</button>
+      <button type="button" class="cat-chip" data-cat="kitchen" onclick="selectCategory('kitchen')">주방·조리기구</button>
+      <button type="button" class="cat-chip" data-cat="drink" onclick="selectCategory('drink')">음료·쇼케이스</button>
+    </nav>
+
+    <section class="bg-gray-50/90 rounded-2xl p-4 border border-gray-100 mb-6 shadow-sm">
+      <div id="q-pc" class="survey-question active">
+        <div class="flex items-start gap-2.5 mb-4">
+          <div class="mt-0.5 w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0 text-emerald-800"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0H3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div><div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Q1 / PC·모니터</div><h2 class="text-sm font-bold text-gray-900 leading-snug">손님이 퇴석한 PC 좌석 및 대기전력 관리 방식은?</h2></div>
+        </div>
+        <div role="radiogroup" class="space-y-2.5">
+          <label class="q-option"><input class="sr-only" name="q_pc" type="radio" value="1" onchange="onAnswer('pc')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">퇴석 즉시 본체 및 모니터 전원을 차단해요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_pc" type="radio" value="2" onchange="onAnswer('pc')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">시스템 자동 절전/타임아웃 설정을 활용해요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_pc" type="radio" value="3" checked onchange="onAnswer('pc')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">손님이 나간 후에도 모니터만 끄거나 켜둔 채 방치돼요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_pc" type="radio" value="4" onchange="onAnswer('pc')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">잘 모르겠어요</span></label>
+        </div>
+      </div>
+
+      <div id="q-hvac" class="survey-question">
+        <div class="flex items-start gap-2.5 mb-4">
+          <div class="mt-0.5 w-7 h-7 rounded-lg bg-teal-100 flex items-center justify-center flex-shrink-0 text-teal-800"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div><div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Q2 / 냉난방·환기</div><h2 class="text-sm font-bold text-gray-900 leading-snug">새벽·심야 시간대 냉난방·환기 가동 방식은?</h2></div>
+        </div>
+        <div role="radiogroup" class="space-y-2.5">
+          <label class="q-option"><input class="sr-only" name="q_hvac" type="radio" value="1" onchange="onAnswer('hvac')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">손님 이용률에 따라 자동으로 강도를 조절해요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_hvac" type="radio" value="2" onchange="onAnswer('hvac')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">심야 전용 절전 모드로 별도 설정해두었어요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_hvac" type="radio" value="3" onchange="onAnswer('hvac')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">낮 시간대와 동일한 세팅으로 계속 가동해요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_hvac" type="radio" value="4" onchange="onAnswer('hvac')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">잘 모르겠어요</span></label>
+        </div>
+      </div>
+
+      <div id="q-kitchen" class="survey-question">
+        <div class="flex items-start gap-2.5 mb-4">
+          <div class="mt-0.5 w-7 h-7 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0 text-amber-800"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v3m-6 4h12M6 10l1 10a2 2 0 002 2h6a2 2 0 002-2l1-10" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div><div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Q3 / 주방·조리기구</div><h2 class="text-sm font-bold text-gray-900 leading-snug">주문이 없는 시간대 조리기구(튀김기·온수기 등) 관리는?</h2></div>
+        </div>
+        <div role="radiogroup" class="space-y-2.5">
+          <label class="q-option"><input class="sr-only" name="q_kitchen" type="radio" value="1" onchange="onAnswer('kitchen')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">사용하지 않을 때는 전원을 꺼둬요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_kitchen" type="radio" value="2" onchange="onAnswer('kitchen')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">보온 대기 모드를 수동으로 껐다 켜요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_kitchen" type="radio" value="3" onchange="onAnswer('kitchen')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">손님이 없어도 항상 보온 대기 상태로 켜둬요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_kitchen" type="radio" value="4" onchange="onAnswer('kitchen')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">잘 모르겠어요</span></label>
+        </div>
+      </div>
+
+      <div id="q-drink" class="survey-question">
+        <div class="flex items-start gap-2.5 mb-4">
+          <div class="mt-0.5 w-7 h-7 rounded-lg bg-sky-100 flex items-center justify-center flex-shrink-0 text-sky-800"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 4h14l-1.5 15.5a2 2 0 01-2 1.5H8.5a2 2 0 01-2-1.5L5 4z" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 4h16" stroke-linecap="round"></path></svg></div>
+          <div><div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Q4 / 음료·쇼케이스</div><h2 class="text-sm font-bold text-gray-900 leading-snug">음료 쇼케이스·정수기 등의 야간 절전 설정은?</h2></div>
+        </div>
+        <div role="radiogroup" class="space-y-2.5">
+          <label class="q-option"><input class="sr-only" name="q_drink" type="radio" value="1" onchange="onAnswer('drink')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">야간 절전 타이머를 설정해뒀어요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_drink" type="radio" value="2" onchange="onAnswer('drink')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">온도를 낮보다 낮게 조절해요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_drink" type="radio" value="3" onchange="onAnswer('drink')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">24시간 동일한 세팅으로 운영해요</span></label>
+          <label class="q-option"><input class="sr-only" name="q_drink" type="radio" value="4" onchange="onAnswer('drink')"><span class="q-dot"><svg class="q-check" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="q-label-text">잘 모르겠어요</span></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-1">
+      <div class="flex items-center justify-between text-[11px] mb-1.5 font-medium text-gray-500">
+        <span>진행률</span>
+        <span class="font-semibold text-gray-800"><span id="survey-progress-pct" class="text-emerald-600 font-bold">25%</span> · <span id="survey-progress-frac">1/4</span></span>
+      </div>
+      <div class="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden"><div id="survey-progress-bar" class="bg-emerald-700 h-1.5 rounded-full transition-all duration-300" style="width:25%;"></div></div>
+    </section>
+  </div>
+
+  <footer class="sticky bottom-0 z-30 bg-white/95 backdrop-blur-md px-5 pt-3 pb-6 border-t border-gray-100 shrink-0">
+    <button type="button" onclick="goTo('diagnosis')" class="w-full h-14 rounded-full bg-emerald-500/90 hover:bg-emerald-500 backdrop-blur-md border border-emerald-300/40 text-white font-bold text-base shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+      <span>AI 진단하기</span>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+  </footer>
+</section>
+
+<section id="screen-diagnosis" class="screen bg-gray-100">
+  <header class="w-full h-14 px-4 bg-white/95 backdrop-blur-md flex items-center justify-between border-b border-gray-100 z-30 shrink-0">
+    <button aria-label="이전으로 이동" onclick="goBack()" class="w-9 h-9 flex items-center justify-center rounded-full text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition-colors" type="button"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+    <div class="flex items-center space-x-1.5 pointer-events-none">
+      <div class="w-6 h-6 rounded-full bg-[#065f46] flex items-center justify-center text-white shadow-sm flex-shrink-0"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6"></path></svg></div>
+      <span class="text-[17px] font-extrabold text-gray-900 tracking-tight">Energy Coach</span>
+    </div>
+    <div class="flex items-center space-x-0.5">
+      <button aria-label="사용자 정보" onclick="goTo('myinfo')" class="w-9 h-9 flex items-center justify-center text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors" type="button"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+      <button aria-label="닫기" onclick="closeScreen()" class="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors" type="button"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></svg></button>
+    </div>
+  </header>
+
+  <main class="flex-1 min-h-0 overflow-y-auto px-5 pt-4 pb-28 space-y-4 bg-gray-100">
+    <nav aria-label="진단 진행 단계" class="w-full bg-white border border-gray-200 shadow-sm rounded-full p-1 flex items-center justify-between text-[11px] font-semibold tracking-tight">
+      <div class="step-pill flex-1 flex items-center justify-center py-1 px-1.5 rounded-full bg-emerald-50 text-[#006948] font-bold whitespace-nowrap gap-1" onclick="goTo('survey')"><svg class="w-3 h-3 text-[#006948] shrink-0" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg><span>1. 설문</span></div>
+      <div class="step-pill flex-1 flex items-center justify-center py-1 px-1.5 rounded-full bg-[#006948] text-white shadow-sm whitespace-nowrap gap-1" onclick="goTo('diagnosis')"><span class="w-1.5 h-1.5 rounded-full bg-emerald-300 shrink-0"></span><span>2. 진단</span></div>
+      <div class="step-pill flex-1 flex items-center justify-center py-1 px-1 text-gray-400 whitespace-nowrap" onclick="goTo('guide')">3. 가이드</div>
+      <div class="step-pill flex-1 flex items-center justify-center py-1 px-1 text-gray-400 whitespace-nowrap" onclick="goTo('results')">4. 효과</div>
+    </nav>
+
+    <section class="bg-white rounded-2xl p-6 shadow-card border border-gray-100" style="box-shadow:0 2px 14px -2px rgba(0,0,0,0.05);">
+      <div class="flex items-center justify-between gap-3">
+        <div class="space-y-1.5 flex-1 min-w-0">
+          <span class="text-[12.5px] font-medium text-gray-500 block">종합 에너지 효율 점수</span>
+          <div class="flex items-baseline gap-2 pt-0.5 whitespace-nowrap"><span class="text-[34px] font-extrabold text-gray-900 tracking-tight leading-none">52</span><span class="text-[14px] font-semibold text-gray-400">/ 100점</span></div>
+          <div class="pt-1"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11.5px] font-semibold bg-amber-50 text-amber-800 border border-amber-200"><svg class="w-3.5 h-3.5 text-amber-600 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" fill-rule="evenodd"></path></svg>개선 여지 있음</span></div>
+        </div>
+        <div class="relative w-20 h-20 shrink-0 flex items-center justify-center">
+          <svg class="w-20 h-20" viewBox="0 0 64 64"><circle class="progress-circle-bg" cx="32" cy="32" fill="transparent" r="28" stroke-width="5"></circle><circle class="progress-circle-val" cx="32" cy="32" fill="transparent" r="28" stroke-width="5.5"></circle></svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"><span class="text-[18px] font-extrabold text-[#006948]">52</span><span class="text-[9px] font-medium text-gray-400 -mt-0.5">SCORE</span></div>
+        </div>
+      </div>
+      <p class="mt-4 pt-3.5 border-t border-gray-100 text-[12.5px] text-gray-600 leading-relaxed">우선 개선하면 전기요금을 크게 줄일 수 있는 <strong class="font-bold text-gray-900 underline decoration-emerald-300 decoration-2">낭비 요인 2개</strong>를 발견했어요.</p>
+    </section>
+
+    <section class="space-y-3">
+      <div class="flex items-center justify-between px-1"><h2 class="text-[14.5px] font-bold text-gray-900 tracking-tight">정밀 진단 분석 리포트</h2><span class="text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded-full">핵심 진단 2건</span></div>
+
+      <article class="bg-white rounded-2xl p-5 shadow-card border border-gray-100 transition hover:border-emerald-200" style="box-shadow:0 2px 14px -2px rgba(0,0,0,0.05);">
+        <div class="flex items-start space-x-3.5">
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 text-[#006948] flex items-center justify-center shrink-0 mt-0.5 border border-emerald-100/60"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect height="14" rx="2" stroke-linecap="round" stroke-linejoin="round" width="20" x="2" y="3"></rect><path d="M8 21h8M12 17v4" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-1"><h3 class="text-[13.5px] font-bold text-gray-900 tracking-tight truncate">비가동 PC 좌석 및 주변기기 대기전력</h3><span class="text-[10.5px] font-bold text-rose-600 bg-rose-50 border border-rose-200/60 px-1.5 py-0.5 rounded shrink-0">높은 개선 필요</span></div>
+            <p class="mt-2 text-[12px] text-gray-600 leading-relaxed">손님이 없는 좌석의 PC 본체·모니터·헤드셋 노하드 대기전력이 불필요하게 소비되고 있어요.</p>
+            <div class="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-between text-[11px]"><span class="text-gray-500">심야 비가동 대기전력 비중</span><span class="font-bold text-rose-600">매장 총량의 38.4%</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="bg-white rounded-2xl p-5 shadow-card border border-gray-100 transition hover:border-emerald-200" style="box-shadow:0 2px 14px -2px rgba(0,0,0,0.05);">
+        <div class="flex items-start space-x-3.5">
+          <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center shrink-0 mt-0.5 border border-teal-100/60"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 3v3m0 12v3m9-9h-3M6 12H3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-1"><h3 class="text-[13.5px] font-bold text-gray-900 tracking-tight truncate">새벽/야간 시간대 환기·냉난방 과다 가동</h3><span class="text-[10.5px] font-bold text-amber-600 bg-amber-50 border border-amber-200/60 px-1.5 py-0.5 rounded shrink-0">확인 필요</span></div>
+            <p class="mt-2 text-[12px] text-gray-600 leading-relaxed">손님 이용률이 낮은 시간대에도 동일한 세팅으로 환기팬과 에어컨이 가동되고 있어요.</p>
+            <div class="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-between text-[11px]"><span class="text-gray-500">공조 부하 과다율</span><span class="font-bold text-amber-600">적정 기준치 대비 +27%</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="bg-white rounded-2xl p-5 shadow-card border border-gray-100" style="box-shadow:0 2px 14px -2px rgba(0,0,0,0.05);">
+        <h3 class="text-[13px] font-bold text-gray-900 mb-3.5 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#006948]"></span>매장 전력 운영 정밀 지표</h3>
+        <div class="space-y-3.5">
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-[11.5px]"><span class="text-gray-600 font-medium">계약전력 대비 피크 여유마진</span><span class="font-bold text-rose-600">12.3% (임계 근접)</span></div>
+            <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-rose-500 rounded-full" style="width:87.7%;"></div></div>
+            <div class="flex justify-between text-[10.5px] text-gray-400 pt-0.5"><span>계약 45kW</span><span>피크 측정치 39.5kW</span></div>
+          </div>
+          <div class="space-y-1.5 pt-3 border-t border-gray-100">
+            <div class="flex justify-between text-[11.5px]"><span class="text-gray-600 font-medium">동종 PC방 대비 효율 백분위</span><span class="font-bold text-amber-600">하위 34% 수준</span></div>
+            <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-amber-500 rounded-full" style="width:34%;"></div></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <footer class="bg-white/70 rounded-2xl p-4 border border-dashed border-gray-200 text-center"><p class="text-[11.5px] text-gray-500 leading-relaxed">매장 정보: <span class="text-gray-900 font-semibold">홍대 e스포츠 PC 아레나 (120석)</span> · 계약전력 45kW</p></footer>
+  </main>
+
+  <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-white via-white/95 to-white/0 pt-5 pb-5 px-4 flex flex-col items-center z-40">
+    <div class="w-full flex items-center gap-2">
+      <button type="button" onclick="goTo('guide')" class="w-full h-14 rounded-full bg-emerald-500/90 hover:bg-emerald-500 backdrop-blur-md border border-emerald-300/40 text-white font-bold text-base shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]"><span>실천 가이드 확인하기</span><svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button>
+    </div>
+    <div class="w-28 h-1 bg-gray-300 rounded-full mt-3 opacity-60"></div>
+  </div>
+</section>
+
+<section id="screen-guide" class="screen bg-surface" style="background-color:#f8f9fa;">
+  <header class="absolute top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.03)]">
+    <div class="h-14 px-margin-mobile flex items-center justify-between relative">
+      <button aria-label="뒤로 가기" onclick="goBack()" class="w-9 h-9 flex items-center justify-center text-on-surface hover:text-primary transition-colors active:scale-95 rounded-full"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+      <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-2.5 pointer-events-none">
+        <div class="w-6 h-6 rounded-full bg-[#065f46] flex items-center justify-center text-white shadow-sm flex-shrink-0"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6"></path></svg></div>
+        <span class="font-headline-md text-[20px] font-bold text-on-surface tracking-tight leading-none">Energy Coach</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <button aria-label="사용자 정보" onclick="goTo('myinfo')" class="w-9 h-9 flex items-center justify-center text-on-surface hover:text-primary transition-colors active:scale-95 rounded-full"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+        <button aria-label="창 닫기" onclick="closeScreen()" class="w-9 h-9 flex items-center justify-center text-on-surface hover:text-primary transition-colors active:scale-95"><span class="material-symbols-outlined text-[22px]">close</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 min-h-0 overflow-y-auto relative w-full pt-14 pb-28 bg-surface p-5" style="background-color:#f8f9fa;">
+    <div class="flex flex-col w-full pb-8">
+      <div class="w-full mb-4 pt-1">
+        <div class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-full border border-gray-200/80 shadow-sm flex items-center justify-between text-[11px] font-medium text-gray-400">
+          <span class="step-pill bg-emerald-100/70 text-[#006948] font-bold px-2.5 py-1 rounded-full flex items-center gap-1" onclick="goTo('survey')"><svg class="w-3 h-3 text-[#006948]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>1. 설문</span>
+          <span class="step-pill bg-emerald-100/70 text-[#006948] font-bold px-2.5 py-1 rounded-full flex items-center gap-1" onclick="goTo('diagnosis')"><svg class="w-3 h-3 text-[#006948]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>2. 진단</span>
+          <span class="step-pill bg-[#006948] text-white font-bold px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm" onclick="goTo('guide')"><span class="w-1.5 h-1.5 rounded-full bg-[#4ade80]"></span>3. 가이드</span>
+          <span class="step-pill px-2 py-0.5" onclick="goTo('results')">4. 효과</span>
+        </div>
+      </div>
+
+      <section class="flex flex-col pt-2 pb-5">
+        <div class="flex flex-col"><h2 class="font-display-lg-mobile text-display-lg-mobile text-on-surface leading-tight">이번 주 이것부터</h2><div class="flex items-baseline justify-between gap-2"><h2 class="font-display-lg-mobile text-display-lg-mobile text-on-surface leading-tight">실천해보세요</h2><span class="font-label-sm text-[11px] text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded-full shrink-0">체크 시 자동 반영</span></div></div>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-2">우선순위가 높고 실천 난이도가 낮은 행동부터 정리했어요. 작은 습관으로 전기요금을 크게 줄일 수 있어요.</p>
+      </section>
+
+      <section class="flex flex-col gap-4 mb-7">
+        <div class="flex items-center justify-between px-1"><h3 class="font-headline-sm text-headline-sm text-on-surface">실천 미션 리스트</h3></div>
+
+        <article class="mission-card bg-surface-container-lowest rounded-[2rem] p-5 shadow-[0_4px_20px_-2px_rgba(6,78,59,0.04),0_2px_6px_-1px_rgba(17,24,39,0.02)] transition-all duration-200" data-mission-id="1">
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <div class="flex items-center gap-2"><span class="font-display-lg-mobile text-headline-md text-primary font-bold opacity-80 leading-none">01</span>
+              <div class="flex flex-wrap gap-1"><span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed-variant">효과 최상 ★★★★★</span><span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant">난이도 쉬움 ★☆☆☆☆</span></div>
+            </div>
+            <button aria-label="01번 미션 완료 토글" class="mission-toggle w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant transition-colors hover:bg-primary-fixed active:scale-90" type="button"><span class="material-symbols-outlined text-[20px] check-icon">check</span></button>
+          </div>
+          <h4 class="font-headline-sm text-headline-sm text-on-surface mb-1">퇴석 좌석 PC·모니터 전원 자동 차단 설정</h4>
+          <div class="flex items-baseline gap-1 text-primary mb-3"><span class="font-label-sm text-label-sm font-semibold">예상 절감</span><span class="font-label-lg text-label-lg font-bold">월 45,000 ~ 65,000원</span></div>
+          <div class="space-y-2 pt-2 border-t border-surface-container-high/40">
+            <label class="flex items-start gap-2.5 cursor-pointer group"><input class="checklist-item mt-1 w-4 h-4 rounded text-primary accent-primary bg-surface-container focus:ring-0 cursor-pointer" type="checkbox"><span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface transition-colors">카운터 관리 프로그램에서 <strong>'퇴석 즉시 전원 OFF/절전'</strong> 자동 규칙 활성화</span></label>
+            <label class="flex items-start gap-2.5 cursor-pointer group"><input class="checklist-item mt-1 w-4 h-4 rounded text-primary accent-primary bg-surface-container focus:ring-0 cursor-pointer" type="checkbox"><span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface transition-colors">게이밍 모니터 대기전력 자동 슬립모드(3분) 전 좌석 일괄 적용</span></label>
+          </div>
+        </article>
+
+        <article class="mission-card bg-surface-container-lowest rounded-[2rem] p-5 shadow-[0_4px_20px_-2px_rgba(6,78,59,0.04),0_2px_6px_-1px_rgba(17,24,39,0.02)] transition-all duration-200" data-mission-id="2">
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <div class="flex items-center gap-2"><span class="font-display-lg-mobile text-headline-md text-primary font-bold opacity-80 leading-none">02</span>
+              <div class="flex flex-wrap gap-1"><span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed-variant">효과 상 ★★★★☆</span><span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant">난이도 보통 ★★☆☆☆</span></div>
+            </div>
+            <button aria-label="02번 미션 완료 토글" class="mission-toggle w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant transition-colors hover:bg-primary-fixed active:scale-90" type="button"><span class="material-symbols-outlined text-[20px] check-icon">check</span></button>
+          </div>
+          <h4 class="font-headline-sm text-headline-sm text-on-surface mb-1">새벽·야간 매장 환기 및 냉난방 유연 제어</h4>
+          <div class="flex items-baseline gap-1 text-primary mb-3"><span class="font-label-sm text-label-sm font-semibold">예상 절감</span><span class="font-label-lg text-label-lg font-bold">월 25,000 ~ 35,000원</span></div>
+          <div class="space-y-2 pt-2 border-t border-surface-container-high/40">
+            <label class="flex items-start gap-2.5 cursor-pointer group"><input class="checklist-item mt-1 w-4 h-4 rounded text-primary accent-primary bg-surface-container focus:ring-0 cursor-pointer" type="checkbox"><span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface transition-colors">심야 시간대 손님을 단일 집중 존(Zone)으로 안내하여 좌석 집약</span></label>
+            <label class="flex items-start gap-2.5 cursor-pointer group"><input class="checklist-item mt-1 w-4 h-4 rounded text-primary accent-primary bg-surface-container focus:ring-0 cursor-pointer" type="checkbox"><span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface transition-colors">손님 없는 비가동 구역 흡배기팬 및 천장형 에어컨 전원 분리 차단</span></label>
+          </div>
+        </article>
+
+        <article class="mission-card bg-surface-container-lowest rounded-[2rem] p-5 shadow-[0_4px_20px_-2px_rgba(6,78,59,0.04),0_2px_6px_-1px_rgba(17,24,39,0.02)] transition-all duration-200" data-mission-id="3">
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <div class="flex items-center gap-2"><span class="font-display-lg-mobile text-headline-md text-primary font-bold opacity-80 leading-none">03</span>
+              <div class="flex flex-wrap gap-1"><span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed-variant">효과 중 ★★★☆☆</span><span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant">난이도 쉬움 ★☆☆☆☆</span></div>
+            </div>
+            <button aria-label="03번 미션 완료 토글" class="mission-toggle w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant transition-colors hover:bg-primary-fixed active:scale-90" type="button"><span class="material-symbols-outlined text-[20px] check-icon">check</span></button>
+          </div>
+          <h4 class="font-headline-sm text-headline-sm text-on-surface mb-1">주방 조리기구(라면기·튀김기) 대기 모드 관리</h4>
+          <div class="flex items-baseline gap-1 text-primary mb-3"><span class="font-label-sm text-label-sm font-semibold">예상 절감</span><span class="font-label-lg text-label-lg font-bold">월 15,000 ~ 20,000원</span></div>
+          <div class="space-y-2 pt-2 border-t border-surface-container-high/40">
+            <label class="flex items-start gap-2.5 cursor-pointer group"><input class="checklist-item mt-1 w-4 h-4 rounded text-primary accent-primary bg-surface-container focus:ring-0 cursor-pointer" type="checkbox"><span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface transition-colors">주문 없는 심야 및 오전 한산한 시간대 보온 대기 모드 수동 해제</span></label>
+            <label class="flex items-start gap-2.5 cursor-pointer group"><input class="checklist-item mt-1 w-4 h-4 rounded text-primary accent-primary bg-surface-container focus:ring-0 cursor-pointer" type="checkbox"><span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface transition-colors">주방 전용 대기전력 차단 멀티탭 스위치 OFF 또는 타이머 콘센트 세팅</span></label>
+          </div>
+        </article>
+      </section>
+
+      <section class="bg-surface-container-low rounded-[2rem] p-5 mb-8 shadow-sm relative overflow-hidden" style="background-color: rgb(241, 243, 245);">
+        <div class="flex items-center gap-2 mb-2"><span class="text-xl leading-none">💡</span><h4 class="font-headline-sm text-headline-sm text-on-surface">PC방 사장님 맞춤 전력 꿀팁</h4></div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-3">한전 일반용(을) 고압 전력 요금제를 사용 중이시라면 <strong>15분 단위 피크 전력치</strong>가 연중 기본요금을 결정합니다. 피크타임(오후 6시~9시)에 대용량 튀김기와 식기세척기 동시 가동을 피하는 것만으로도 연간 요금이 수십만 원 절감됩니다.</p>
+        <div class="flex items-center gap-1.5 text-primary font-label-sm text-label-sm"><span class="material-symbols-outlined text-[16px]">verified</span><span>AI 에너지 코치 피크 예측 알고리즘 기반 제안</span></div>
+      </section>
+    </div>
+  </main>
+
+  <div class="absolute bottom-0 left-0 right-0 p-4 pb-safe bg-gradient-to-t from-surface via-surface/95 to-transparent z-40 flex flex-col items-center" style="--tw-gradient-from:#f8f9fa;">
+    <div class="w-full flex gap-2"><button class="w-full h-14 rounded-full bg-emerald-500/90 hover:bg-emerald-500 backdrop-blur-md border border-emerald-300/40 text-white font-bold text-base shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]" onclick="goTo('results')" type="button"><span class="tracking-tight font-headline-sm text-white">예상 절감 효과 보기</span><span class="material-symbols-outlined text-[22px] font-bold text-white">chevron_right</span></button></div>
+  </div>
+
+
+</section>
+
+<section id="screen-results" class="screen font-sans toss-dot-bg" style="background-color:#f8f9fa;">
+  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md px-4 pt-3 pb-3 border-b border-gray-100 flex items-center justify-between relative shrink-0">
+    <button aria-label="뒤로 가기" onclick="goBack()" class="w-10 h-10 -ml-1 flex items-center justify-center text-slate-700 hover:text-slate-900 rounded-full hover:bg-slate-100 transition-colors" type="button"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"></path></svg></button>
+    <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-none">
+      <div class="w-6 h-6 rounded-full bg-[#065f46] flex items-center justify-center text-white shadow-sm flex-shrink-0"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6"></path></svg></div>
+      <span class="font-extrabold text-[17px] text-[#141b2b] tracking-tight leading-none">Energy Coach</span>
+    </div>
+    <div class="flex items-center gap-1 -mr-1"><button aria-label="사용자 정보" onclick="goTo('myinfo')" class="w-10 h-10 flex items-center justify-center text-slate-700 hover:text-slate-900 rounded-full hover:bg-slate-100 transition-colors" type="button"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button><button aria-label="닫기" onclick="closeScreen()" class="p-1 text-gray-500 hover:text-black transition-colors" type="button"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path></svg></button></div>
+  </header>
+
+  <section class="px-4 pt-3 pb-2 bg-white border-b border-gray-100 shrink-0">
+    <div class="px-4 py-2 bg-white/80 backdrop-blur-md rounded-full border border-gray-200/80 shadow-sm flex items-center justify-between text-[11px] font-medium text-gray-400">
+      <span class="step-pill bg-emerald-100/70 text-[#006948] font-bold px-2.5 py-1 rounded-full flex items-center gap-1" onclick="goTo('survey')"><svg class="w-3 h-3 text-[#006948]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg>1. 설문</span>
+      <span class="step-pill bg-emerald-100/70 text-[#006948] font-bold px-2.5 py-1 rounded-full flex items-center gap-1" onclick="goTo('diagnosis')"><svg class="w-3 h-3 text-[#006948]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg>2. 진단</span>
+      <span class="step-pill bg-emerald-100/70 text-[#006948] font-bold px-2.5 py-1 rounded-full flex items-center gap-1" onclick="goTo('guide')"><svg class="w-3 h-3 text-[#006948]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg>3. 가이드</span>
+      <span class="step-pill bg-[#006948] text-white font-bold px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm" onclick="goTo('results')"><span class="w-1.5 h-1.5 rounded-full bg-[#4ade80]"></span>4. 효과</span>
+    </div>
+  </section>
+
+  <main class="flex-1 min-h-0 px-5 pt-5 overflow-y-auto" style="padding-bottom:210px;">
+    <section class="mb-6">
+      <div class="flex items-center gap-2 mb-2.5"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-100">예시 산정값 (100석 기준)</span></div>
+      <h1 class="text-2xl font-bold tracking-tight text-gray-900 leading-snug">예상 절감 효과</h1>
+      <p class="text-[13.5px] text-tossText-sub mt-1.5 leading-relaxed font-normal">추천 행동을 실천했을 때 기대할 수 있는 월간 효과예요.</p>
+    </section>
+
+    <section class="mb-7 relative">
+      <div class="relative">
+        <div class="flex overflow-x-auto snap-x snap-mandatory gap-3 py-1 px-1">
+          <div class="min-w-full snap-center bg-white border-2 border-emerald-500/80 rounded-2xl py-5 px-10 shadow-sm flex flex-col justify-between items-start relative overflow-hidden">
+            <div class="flex items-center justify-between w-full mb-3"><div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center shadow-sm"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect height="14" rx="2" width="20" x="2" y="5"></rect><circle cx="12" cy="12" r="3"></circle></svg></div><span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-tossGreen-700 border border-emerald-200/60">핵심 절감</span></div>
+            <div><div class="text-xs font-bold text-tossGreen-700 mb-1 flex items-center gap-1"><span>월 전기요금 절감</span></div><div class="text-2xl font-extrabold text-tossGreen-700 leading-tight tracking-tight">9.5만 ~ 15만</div><div class="text-xs text-tossGreen-700/80 font-medium mt-1">원 / 월</div></div>
+          </div>
+          <div class="min-w-full snap-center bg-subtleGray border border-gray-100 rounded-2xl py-5 px-10 toss-card-shadow flex flex-col justify-between items-start transition-all hover:bg-white hover:border-gray-200">
+            <div class="flex items-center justify-between w-full mb-3"><div class="w-10 h-10 rounded-full bg-emerald-100/70 text-tossGreen-700 flex items-center justify-center"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" fill-rule="evenodd"></path></svg></div><span class="text-[11px] font-medium text-tossText-muted">예상 수치</span></div>
+            <div><div class="text-xs font-medium text-tossText-sub mb-1">월 절감 전력</div><div class="text-2xl font-bold text-gray-900 leading-tight tracking-tight">520 ~ 840</div><div class="text-xs text-tossText-muted font-normal mt-1">kWh / 월</div></div>
+          </div>
+          <div class="min-w-full snap-center bg-subtleGray border border-gray-100 rounded-2xl py-5 px-10 toss-card-shadow flex flex-col justify-between items-start transition-all hover:bg-white hover:border-gray-200">
+            <div class="flex items-center justify-between w-full mb-3"><div class="w-10 h-10 rounded-full bg-emerald-100/70 text-tossGreen-700 flex items-center justify-center"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4 9.236V15a1 1 0 00.553.894l4 2A1 1 0 0010 17v-5.764a1 1 0 00-.553-.894l-4-2A1 1 0 004 9.236z"></path></svg></div><span class="text-[11px] font-medium text-tossText-muted">온실가스 감축</span></div>
+            <div><div class="text-xs font-medium text-tossText-sub mb-1">월 탄소 감축량</div><div class="text-2xl font-bold text-gray-900 leading-tight tracking-tight">240 ~ 380</div><div class="text-xs text-tossText-muted font-normal mt-1">kgCO₂e / 월</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-center items-center gap-1.5 mt-3"><span class="w-5 h-1.5 rounded-full bg-[#006948] transition-all"></span><span class="w-1.5 h-1.5 rounded-full bg-gray-300 transition-all"></span><span class="w-1.5 h-1.5 rounded-full bg-gray-300 transition-all"></span></div>
+    </section>
+
+    <section class="bg-subtleGray border border-gray-100 rounded-2xl mb-5 toss-card-shadow p-5">
+      <div class="flex items-center justify-between mb-4"><h2 class="text-sm font-bold text-gray-900">어디에서 가장 많이 줄일 수 있나요?</h2><span class="text-xs font-semibold text-tossGreen-700 bg-emerald-50 px-2 py-0.5 rounded-md">총 100%</span></div>
+      <div class="space-y-4">
+        <div><div class="flex justify-between items-center text-xs font-medium mb-1.5"><span class="text-gray-800 font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-tossGreen-600"></span>PC·모니터 대기전력</span><span class="font-bold text-tossGreen-700">54%</span></div><div class="w-full bg-gray-200/80 rounded-full h-2.5 overflow-hidden"><div class="bg-tossGreen-600 h-2.5 rounded-full transition-all duration-500" style="width:54%;"></div></div></div>
+        <div><div class="flex justify-between items-center text-xs font-medium mb-1.5"><span class="text-gray-700 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span>냉난방·환기 설비</span><span class="font-bold text-gray-800">26%</span></div><div class="w-full bg-gray-200/80 rounded-full h-2.5 overflow-hidden"><div class="bg-teal-500 h-2.5 rounded-full transition-all duration-500" style="width:26%;"></div></div></div>
+        <div><div class="flex justify-between items-center text-xs font-medium mb-1.5"><span class="text-gray-700 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>주방·조리 기기</span><span class="font-bold text-gray-800">12%</span></div><div class="w-full bg-gray-200/80 rounded-full h-2.5 overflow-hidden"><div class="bg-emerald-400 h-2.5 rounded-full transition-all duration-500" style="width:12%;"></div></div></div>
+        <div><div class="flex justify-between items-center text-xs font-medium mb-1.5"><span class="text-gray-700 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>조명·기타 대기전력</span><span class="font-bold text-gray-800">8%</span></div><div class="w-full bg-gray-200/80 rounded-full h-2.5 overflow-hidden"><div class="bg-gray-400 h-2.5 rounded-full transition-all duration-500" style="width:8%;"></div></div></div>
+      </div>
+    </section>
+
+    <section class="bg-white border border-gray-200/80 rounded-2xl p-5 mb-6">
+      <div class="flex items-center gap-1.5 mb-2 text-xs font-bold text-gray-900"><svg class="w-3.5 h-3.5 text-tossGreen-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>산정 기준 및 출처</span></div>
+      <ul class="text-[11.5px] text-tossText-sub space-y-1 pl-1">
+        <li class="flex items-start gap-1.5"><span class="text-gray-400">•</span><span>한국전력공사 전력요금 자료</span></li>
+        <li class="flex items-start gap-1.5"><span class="text-gray-400">•</span><span>한국에너지공단 소상공인 에너지 절감 가이드</span></li>
+      </ul>
+      <p class="text-[10.5px] text-tossText-muted mt-2.5 pt-2 border-t border-gray-100 leading-normal">* 실제 절감 효과는 PC 대수, 사양, 가동률, 계약종별 등에 따라 달라질 수 있습니다.</p>
+    </section>
+  </main>
+
+  <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white via-white/95 to-transparent pt-6 pb-safe z-30">
+    <div class="w-full mb-3 p-3.5 bg-emerald-50 hover:bg-emerald-100/70 border border-emerald-200/60 rounded-2xl flex items-center justify-between cursor-pointer transition-all active:scale-[0.99] shadow-sm" role="button" tabindex="0" onclick="goTo('solution')">
+      <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-emerald-100/80 text-[#006948] flex items-center justify-center flex-shrink-0 shadow-sm"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6.4-4.8-6.4 4.8 2.4-7.2-6-4.8h7.6z"></path></svg></div><div class="text-left"><div class="flex items-center gap-1.5"><span class="font-bold text-gray-900 text-[14.5px] leading-snug">자세한 추가 솔루션 받기</span><span class="bg-[#006948] text-white text-[10.5px] px-1.5 py-0.5 rounded font-medium leading-none">AI 추천</span></div><p class="text-xs text-gray-500 mt-0.5 font-normal">매장 맞춤형 추가 절감 3대 액션 플랜 확인하기</p></div></div>
+      <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#006948] shadow-sm flex-shrink-0 ml-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg></div>
+    </div>
+    <button class="w-full h-14 rounded-full bg-emerald-500/90 hover:bg-emerald-500 backdrop-blur-md border border-emerald-300/40 text-white font-bold text-base shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]" onclick="goTo('myinfo')" type="button"><span>내 업장 현황 보기</span><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+  </div>
+</section>
+
+<section id="screen-solution" class="screen bg-surface" style="background-color:#f8fafc;">
+  <header class="absolute top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.03)]">
+    <div class="h-14 px-margin-mobile flex items-center justify-between relative">
+      <button aria-label="뒤로 가기" onclick="goBack()" class="w-11 h-11 -ml-2 flex items-center justify-center text-on-surface hover:text-primary transition-colors active:scale-95 z-10"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button>
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none"><div class="flex items-center gap-1.5 pointer-events-auto"><div class="w-7 h-7 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container"><span class="material-symbols-outlined text-[18px]">eco</span></div><span class="font-headline-sm text-headline-sm font-extrabold text-on-surface tracking-tight">Energy Coach</span></div></div>
+      <div class="flex items-center gap-1 z-10"><button aria-label="내 정보" onclick="goTo('myinfo')" class="w-11 h-11 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-95"><span class="material-symbols-outlined text-[24px]">account_circle</span></button><button aria-label="창 닫기" onclick="closeScreen()" class="w-11 h-11 -mr-2 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-95"><span class="material-symbols-outlined text-[24px]">close</span></button></div>
+    </div>
+  </header>
+
+  <main class="flex-1 min-h-0 overflow-y-auto relative w-full pt-14 pb-28 bg-surface px-margin-mobile" style="background-color:#f8fafc;">
+    <div class="flex flex-col w-full pb-6 space-y-space-md">
+      <section class="flex flex-col space-y-space-xs pt-space-xs">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface">PC방 AI 정밀 추가 솔루션</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">플레이존 PC방 (강남점)의 최근 전력 패턴 분석 기반 심화 권장안</p>
+      </section>
+
+      <section class="w-full bg-surface-container-lowest rounded-[2rem] p-space-md shadow-[0_4px_20px_-2px_rgba(6,78,59,0.04)]">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-space-xs"><span class="w-2.5 h-2.5 rounded-full bg-primary"></span><span class="font-label-lg text-label-lg text-primary">추가 절감 극대화 플랜</span></div>
+          <span class="px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container font-label-sm text-label-sm font-semibold">적용 시 총 480,000원</span>
+        </div>
+        <div class="mt-space-sm flex items-baseline justify-between">
+          <div><p class="font-body-sm text-body-sm text-on-surface-variant">월 예상 종합 추가 절감액</p><p class="font-display-lg-mobile text-display-lg-mobile text-primary mt-0.5 font-extrabold">+95,000<span class="font-headline-md text-headline-md font-bold text-on-surface ml-0.5">원</span></p></div>
+          <div class="text-right"><span class="font-label-sm text-label-sm text-on-surface-variant block">기존 절감 385,000원</span><span class="font-label-sm text-label-sm text-primary font-bold block">+ 추가 95,000원</span></div>
+        </div>
+        <div class="w-full bg-surface-container-high rounded-full h-2 mt-space-sm overflow-hidden flex"><div class="bg-secondary h-full" style="width:80%;"></div><div class="bg-primary-fixed-dim h-full" style="width:20%;"></div></div>
+        <div class="flex justify-between items-center mt-1.5 font-label-sm text-label-sm text-on-surface-variant"><span>현재 확정 절감 (80%)</span><span class="text-primary font-bold">추가 절감 잠재력 (20%)</span></div>
+      </section>
+
+      <article class="w-full bg-surface-container-lowest rounded-[2rem] p-space-md shadow-[0_4px_20px_-2px_rgba(6,78,59,0.04)] transition-all duration-200">
+        <div class="flex items-start justify-between gap-space-sm">
+          <div class="flex items-center gap-space-sm"><div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[22px]" style="font-variation-settings:&quot;FILL&quot; 1;">bolt</span></div><div><span class="font-label-sm text-label-sm text-primary font-semibold">피크 대응</span><h3 class="font-headline-sm text-headline-sm text-on-surface">피크타임 집중 방어</h3></div></div>
+          <button aria-checked="true" class="relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full bg-primary p-0.5 transition-colors duration-200 ease-in-out focus:outline-none" data-toggle="solution-1" role="switch" type="button"><span class="pointer-events-none inline-block h-6 w-6 transform rounded-full bg-surface-container-lowest shadow-sm transition duration-200 ease-in-out translate-x-5"></span></button>
+        </div>
+        <div class="mt-space-sm flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low text-on-surface-variant w-fit font-label-sm text-label-sm"><span class="material-symbols-outlined text-[15px]">schedule</span><span>19:00 ~ 22:00 (전력 피크 집중 구간)</span></div>
+        <div class="mt-space-md space-y-space-sm">
+          <div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span><p class="font-body-sm text-body-sm text-on-surface">야간 피크 시간대 빈 좌석 일괄 대기전력 즉각 차단</p></div>
+          <div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span><p class="font-body-sm text-body-sm text-on-surface">미사용 모니터 및 게이밍 RGB 조명 자동 절전 프로파일 활성화</p></div>
+        </div>
+        <div class="mt-space-md pt-space-sm flex items-center justify-between bg-surface-container-lowest"><span class="font-body-sm text-body-sm text-on-surface-variant">월 예상 추가 절감액</span><span class="font-metric-num text-headline-sm text-primary font-bold">약 42,000원</span></div>
+      </article>
+
+      <article class="w-full bg-surface-container-lowest rounded-[2rem] p-space-md shadow-[0_4px_20px_-2px_rgba(6,78,59,0.04)] transition-all duration-200">
+        <div class="flex items-start justify-between gap-space-sm">
+          <div class="flex items-center gap-space-sm"><div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[22px]" style="font-variation-settings:&quot;FILL&quot; 1;">mode_fan</span></div><div><span class="font-label-sm text-label-sm text-primary font-semibold">스마트 공조</span><h3 class="font-headline-sm text-headline-sm text-on-surface">심야 환기·냉난방 스케줄링</h3></div></div>
+          <button aria-checked="true" class="relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full bg-primary p-0.5 transition-colors duration-200 ease-in-out focus:outline-none" data-toggle="solution-2" role="switch" type="button"><span class="pointer-events-none inline-block h-6 w-6 transform rounded-full bg-surface-container-lowest shadow-sm transition duration-200 ease-in-out translate-x-5"></span></button>
+        </div>
+        <div class="mt-space-sm flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low text-on-surface-variant w-fit font-label-sm text-label-sm"><span class="material-symbols-outlined text-[15px]">bedtime</span><span>02:00 ~ 08:00 (심야 저밀도 운영 시간)</span></div>
+        <div class="mt-space-md space-y-space-sm">
+          <div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span><p class="font-body-sm text-body-sm text-on-surface">이용률 30% 이하 시 환기팬 간헐 운전 (15분 가동 / 10분 정지)</p></div>
+          <div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span><p class="font-body-sm text-body-sm text-on-surface">실내 온·습도 센서 연동 자동 인버터 압축기 정밀 제어</p></div>
+        </div>
+        <div class="mt-space-md pt-space-sm flex items-center justify-between bg-surface-container-lowest"><span class="font-body-sm text-body-sm text-on-surface-variant">월 예상 추가 절감액</span><span class="font-metric-num text-headline-sm text-primary font-bold">약 35,000원</span></div>
+      </article>
+
+      <article class="w-full bg-surface-container-lowest rounded-[2rem] p-space-md shadow-[0_4px_20px_-2px_rgba(6,78,59,0.04)] transition-all duration-200">
+        <div class="flex items-start justify-between gap-space-sm">
+          <div class="flex items-center gap-space-sm"><div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[22px]" style="font-variation-settings:&quot;FILL&quot; 1;">skillet</span></div><div><span class="font-label-sm text-label-sm text-primary font-semibold">주방 설비 최적화</span><h3 class="font-headline-sm text-headline-sm text-on-surface">조리 설비 피크 분산</h3></div></div>
+          <button aria-checked="true" class="relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full bg-primary p-0.5 transition-colors duration-200 ease-in-out focus:outline-none" data-toggle="solution-3" role="switch" type="button"><span class="pointer-events-none inline-block h-6 w-6 transform rounded-full bg-surface-container-lowest shadow-sm transition duration-200 ease-in-out translate-x-5"></span></button>
+        </div>
+        <div class="mt-space-sm flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low text-on-surface-variant w-fit font-label-sm text-label-sm"><span class="material-symbols-outlined text-[15px]">timer</span><span>주문 비집중 시간대 상시 제어</span></div>
+        <div class="mt-space-md space-y-space-sm">
+          <div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span><p class="font-body-sm text-body-sm text-on-surface">튀김기·대용량 온수기 스마트 타이머 프리히팅 분산 가동</p></div>
+          <div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span><p class="font-body-sm text-body-sm text-on-surface">주문 없는 시간 10분 초과 시 보온 대기모드 자동 전환</p></div>
+        </div>
+        <div class="mt-space-md pt-space-sm flex items-center justify-between bg-surface-container-lowest"><span class="font-body-sm text-body-sm text-on-surface-variant">월 예상 추가 절감액</span><span class="font-metric-num text-headline-sm text-primary font-bold">약 18,000원</span></div>
+      </article>
+
+      <div class="p-space-md rounded-[2rem] bg-surface-container-low flex items-start gap-space-sm"><span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">info</span><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">설정된 솔루션은 매장 내 스마트 플러그 및 IoT 전력량계와 실시간 연동되어 손님 이용에 불편함이 없도록 좌석 센싱 후 자동 작동합니다.</p></div>
+    </div>
+  </main>
+
+  <div class="absolute bottom-0 left-0 right-0 z-40 bg-gradient-to-t from-surface via-surface/90 to-transparent pb-safe pt-6 px-margin-mobile flex justify-center" style="--tw-gradient-from:#f8fafc;">
+    <div class="w-full pb-4"><button class="w-full h-14 rounded-full bg-primary text-on-primary font-headline-sm text-headline-sm font-bold flex items-center justify-center shadow-[0_12px_32px_-4px_rgba(5,150,105,0.2)] active:scale-[0.98] transition-transform duration-150" onclick="goTo('myinfo')" type="button">메인화면으로</button></div>
+  </div>
+
+</section>
+
+<section id="screen-myinfo" class="screen font-sans bg-[#F8F9FA]" style="color:#191F28;">
+  <header class="flex items-center justify-between px-5 py-4 bg-white sticky top-0 z-20 border-b border-gray-100 shrink-0">
+    <button onclick="goBack()" class="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-black" type="button"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+    <div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-[#006948] flex items-center justify-center text-white"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" fill-rule="evenodd"></path></svg></div><span class="text-base font-bold text-gray-900 tracking-tight">내 정보</span></div>
+    <button onclick="goTo('cover')" class="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-black" type="button"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+  </header>
+
+  <main class="flex-1 min-h-0 overflow-y-auto px-4 pt-3 flex flex-col gap-4 p-5">
+    <div class="flex items-center justify-between bg-white px-4 py-2.5 rounded-full shadow-sm border border-gray-100">
+      <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-[#006948]"></span><span class="text-sm font-semibold text-gray-800">플레이존 PC방 (강남점)</span><span class="text-xs text-gray-400">· 100석</span></div>
+      <span class="text-[11px] font-semibold text-[#006948] bg-[#E8F5E9] px-2.5 py-0.5 rounded-full">실시간 가동중</span>
+    </div>
+
+    <section class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col gap-3">
+      <div class="flex items-start justify-between">
+        <div><h2 class="text-lg font-bold text-gray-900 tracking-tight">월별 절감 추이</h2><p class="text-xs text-gray-400 mt-0.5">지난 5개월간의 지출 및 전력 사용량 비교</p></div>
+        <div class="flex items-center gap-3 text-[11px] font-medium text-gray-500 pt-0.5">
+          <div class="flex items-center gap-1.5"><span class="inline-block w-4 h-0.5 bg-[#006948] rounded-full relative"><span class="absolute -top-[3px] left-1 w-2 h-2 rounded-full bg-[#006948]"></span></span><span>요금(만)</span></div>
+          <div class="flex items-center gap-1.5"><span class="inline-block w-4 border-b-2 border-dashed border-[#34D399] relative"><span class="absolute -top-[3px] left-1 w-2 h-2 rounded-full border border-[#006948] bg-white"></span></span><span>사용량(kwh)</span></div>
+        </div>
+      </div>
+      <div class="relative w-full pt-1">
+        <div class="grid grid-cols-5 text-center text-xs font-bold text-gray-800 pb-1.5"><span class="text-gray-700">218</span><span class="text-gray-700">230</span><span class="text-gray-700">242</span><span class="text-gray-700">205</span><span class="text-[#006948] font-extrabold">176</span></div>
+        <div class="relative w-full py-1">
+          <svg viewBox="0 0 320 100" class="w-full h-24" style="overflow:visible;">
+            <line x1="16" y1="15" x2="304" y2="15" stroke="#F3F4F6" stroke-width="1" stroke-dasharray="2 2"></line>
+            <line x1="16" y1="50" x2="304" y2="50" stroke="#F3F4F6" stroke-width="1" stroke-dasharray="2 2"></line>
+            <line x1="16" y1="85" x2="304" y2="85" stroke="#F3F4F6" stroke-width="1"></line>
+            <polyline fill="none" stroke="#34D399" stroke-width="2" stroke-dasharray="4 3" stroke-linecap="round" stroke-linejoin="round" points="32,45 100,32 168,18 236,58 296,82"></polyline>
+            <circle cx="32" cy="45" r="3.5" fill="#ffffff" stroke="#006948" stroke-width="1.5"></circle><circle cx="100" cy="32" r="3.5" fill="#ffffff" stroke="#006948" stroke-width="1.5"></circle><circle cx="168" cy="18" r="3.5" fill="#ffffff" stroke="#006948" stroke-width="1.5"></circle><circle cx="236" cy="58" r="3.5" fill="#ffffff" stroke="#006948" stroke-width="1.5"></circle><circle cx="296" cy="82" r="3.5" fill="#ffffff" stroke="#006948" stroke-width="1.5"></circle>
+            <polyline fill="none" stroke="#006948" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="32,52 100,38 168,22 236,65 296,88"></polyline>
+            <circle cx="32" cy="52" r="4" fill="#006948"></circle><circle cx="100" cy="38" r="4" fill="#006948"></circle><circle cx="168" cy="22" r="4.5" fill="#006948"></circle><circle cx="236" cy="65" r="4" fill="#006948"></circle><circle cx="296" cy="88" r="4.5" fill="#006948"></circle>
+          </svg>
+        </div>
+        <div class="grid grid-cols-5 text-center text-[11px] font-medium text-gray-500 pt-1.5 border-t border-gray-100"><span>10900</span><span>11500</span><span>12100</span><span>10250</span><span class="text-[#006948] font-bold">8800</span></div>
+        <div class="grid grid-cols-5 text-center mt-1 items-center"><span class="text-xs font-semibold text-gray-500">11월</span><span class="text-xs font-semibold text-gray-500">12월</span><span class="text-xs font-semibold text-gray-500">1월</span><span class="text-xs font-semibold text-gray-500">2월</span><span class="text-xs font-bold text-[#006948] bg-[#E8F5E9]/60 rounded-full py-0.5">3월(현재)</span></div>
+      </div>
+      <div class="bg-[#E8F5E9] text-[#006948] rounded-full py-2 px-3 text-center text-xs font-semibold flex items-center justify-center gap-1.5 mt-1"><span class="w-1.5 h-1.5 rounded-full bg-[#006948]"></span><span>최고치(1월) 대비 절감 효과 <strong class="font-bold">-27%</strong> (66만 / 3,300kWh 절감)</span></div>
+    </section>
+
+    <section class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col">
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-1.5 text-xs font-semibold text-[#006948]"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.316.492-.533 1.035-.67 1.583a9.98 9.98 0 00-.303 1.942C8.36 7.42 7.7 8.5 6.5 8.5c-.828 0-1.5.672-1.5 1.5 0 .828.672 1.5 1.5 1.5 1.7 0 2.87-1.12 3.65-2.22.38-.54.67-1.13.88-1.72.1-.28.18-.55.23-.81.23.63.54 1.25.93 1.83.92 1.38 2.31 2.42 3.81 2.42.828 0 1.5-.672 1.5-1.5 0-.828-.672-1.5-1.5-1.5-.9 0-1.68-.58-2.28-1.42a8.96 8.96 0 01-.83-1.6c-.18-.51-.31-1.04-.39-1.56a1 1 0 00-.595-.787z" fill-rule="evenodd"></path></svg><span>현재까지 이만큼 아꼈어요</span></div>
+        <span class="text-xs font-bold text-[#006948] bg-[#E8F5E9] px-2 py-0.5 rounded-full flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>24% 절감 달성</span>
+      </div>
+      <div class="flex items-baseline gap-1 my-1"><span class="text-3xl font-extrabold text-[#006948] tracking-tight">385,000</span><span class="text-xl font-bold text-gray-900">원 절감</span></div>
+      <p class="text-xs text-gray-400">최근 42일간 축적된 실제 절감 전기요금이에요</p>
+      <div class="grid grid-cols-3 gap-2.5 mt-4">
+        <div class="bg-[#F8F9FA] rounded-xl p-3 text-center border border-gray-100 flex flex-col items-center"><div class="w-6 h-6 rounded-full bg-[#E8F5E9] text-[#006948] flex items-center justify-center mb-1"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" fill-rule="evenodd"></path></svg></div><div class="text-[11px] text-gray-500 font-medium">누적 절감량</div><div class="text-sm font-bold text-gray-900 mt-0.5">1,840<span class="text-[10px] text-gray-500 font-normal ml-0.5">kWh</span></div></div>
+        <div class="bg-[#F8F9FA] rounded-xl p-3 text-center border border-gray-100 flex flex-col items-center"><div class="w-6 h-6 rounded-full bg-[#E8F5E9] text-[#006948] flex items-center justify-center mb-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></div><div class="text-[11px] text-gray-500 font-medium">탄소 감축량</div><div class="text-sm font-bold text-gray-900 mt-0.5">860<span class="text-[10px] text-gray-500 font-normal ml-0.5">kg</span></div></div>
+        <div class="bg-[#F8F9FA] rounded-xl p-3 text-center border border-gray-100 flex flex-col items-center"><div class="w-6 h-6 rounded-full bg-[#E8F5E9] text-[#006948] flex items-center justify-center mb-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></div><div class="text-[11px] text-gray-500 font-medium">실천 일수</div><div class="text-sm font-bold text-gray-900 mt-0.5">42<span class="text-[10px] text-gray-500 font-normal ml-0.5">일차</span></div></div>
+      </div>
+    </section>
+
+    <section class="bg-[#3D4756] text-white rounded-2xl p-5 shadow-sm relative overflow-hidden">
+      <div class="flex items-center justify-between mb-2"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg><span class="text-sm font-bold text-gray-100">이번 달 예상 청구액</span></div><span class="text-[11px] font-semibold bg-emerald-600/80 text-white px-2 py-0.5 rounded">D-9 정산</span></div>
+      <div class="flex items-baseline justify-between text-xs text-gray-300 mt-2 mb-1"><span>절감 전 기준 예상</span><span class="text-gray-300 line-through">2,150,000원</span></div>
+      <div class="flex items-baseline justify-between mt-1"><div><span class="text-[11px] text-emerald-300 font-medium block">AI 코칭 적용 확정치</span><span class="text-base font-bold text-white">현재 예상 청구액</span></div><div class="text-right"><span class="text-2xl font-extrabold text-emerald-300 tracking-tight">1,765,000</span><span class="text-sm font-bold text-white ml-0.5">원</span></div></div>
+      <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs"><div class="flex items-center gap-1.5 text-gray-300"><svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"></path><path clip-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" fill-rule="evenodd"></path></svg><span>이번 달 확보한 순수익</span></div><span class="font-bold text-emerald-300">+385,000원 이득</span></div>
+    </section>
+
+    <div class="flex flex-col gap-2.5 mt-1">
+      <button onclick="goTo('guide')" class="w-full py-4 bg-[#006948] hover:bg-[#00573c] text-white font-bold text-base rounded-full shadow-md flex items-center justify-center gap-2" type="button"><span>실천 가이드 점검하기</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg></button>
+      <button onclick="goTo('survey')" class="w-full py-2.5 text-xs text-gray-500 hover:text-gray-700 font-medium flex items-center justify-center gap-1.5" type="button"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg><span>AI 진단 리포트 다시 받기</span></button>
+    </div>
+  </main>
+</section>
+
+</div>
+
+
+
+<script src="/static/energy-coach.js" defer></script>
+</body>
+</html>
